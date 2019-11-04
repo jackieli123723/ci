@@ -89,7 +89,7 @@ module.exports = function(CLI) {
 ### 隐射表 
 https://github.com/florije1988/cool_weather/blob/6ff6d83205568a4e757c36ea5c3a84ead37ccf50/README.md
 
-
+直辖市：北京、上海、天津、重庆，比较特殊，从station到cityinfo的步骤是在00前5位后加入县市的id然后再加00
 
 http://www.weather.com.cn/weather/101280601.shtml 深圳 7天 
 http://www.weather.com.cn/weather1d/101280601.shtml 深圳 1天
@@ -109,6 +109,69 @@ http://www.weather.com.cn/weather1dn/101010100.shtml
 http://www.weather.com.cn/weathern/101010100.shtml
 http://www.weather.com.cn/weather15dn/101010100.shtml
 http://www.weather.com.cn/weather40dn/101010100.shtml
+
+
+###
+
+上面这个就是我现在在用的，返回的数据最全面，也是绝大多数博客中都会介绍的。另外还有两个接口比较简洁。
+
+http://www.weather.com.cn/data/sk/101010100.html 这个接口返回的数据是实况数据，像下面这样的。
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+{
+    "weatherinfo": {
+        "city": "北京", // 城市中文名
+        "cityid": "101010100", // 城市 ID
+        "temp": "24", // 温度
+        "WD": "西南风", // 风向
+        "WS": "1级", // 风力
+        "SD": "92%", // 湿度
+        "WSE": "1", // ?
+        "time": "19:15", // 发布时间
+        "isRadar": "1", // 是否有雷达图
+        "Radar": "JC_RADAR_AZ9010_JB" // 雷达图编号，雷达图的地址在 http://www.weather.com.cn/html/radar/雷达图编号.shtml
+    }
+}
+　　还有一个接口http://www.weather.com.cn/data/cityinfo/101010100.html 这个接口返回的数据如下。
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+{
+    "weatherinfo": {
+        "city": "北京", // 城市中文名
+        "cityid": "101010100", // 城市 ID
+        "temp1": "22℃", // ?
+        "temp2": "31℃", // ?
+        "weather": "阴转晴", // 天气
+        "img1": "n2.gif", // ? 天气图标编号
+        "img2": "d0.gif", // ? 天气图标编号
+        "ptime": "18:00" // 发布时间
+    }
+}
+
 
 ## 天气预报 
 101270101
@@ -261,12 +324,165 @@ y
     background-color: #fbfbfb;
 }
 
+.details-container .content-container .scroll-container .details-houers-container .details-item .item-icon {
+    width: 35px;
+    height: 35px;
+    display: block;
+    margin: 0 auto;
+}
+
+.d00 {
+    background-position: 0 0
+}
+
+.d01 {
+    background-position: -78px 0
+}
+
+.d02 {
+    background-position: -160px 0
+}
+
+.d03 {
+    background-position: -240px 0
+}
+
+.d04 {
+    background-position: -320px 0
+}
+
+.d05 {
+    background-position: -400px 0
+}
+
+.d06 {
+    background-position: -480px 0
+}
+
+.d07 {
+    background-position: -560px 0
+}
+
+.d08 {
+    background-position: -640px 0
+}
+
+.d09 {
+    background-position: -720px 0
+}
+
+.d10 {
+    background-position: -800px 0
+}
+
+.d11 {
+    background-position: -880px 0
+}
+
+.d12 {
+    background-position: 0 -80px
+}
+
+.d13 {
+    background-position: -80px -80px
+}
+
+.d14 {
+    background-position: -160px -80px
+}
+
+.n01 {
+    background-position: -640px -240px;
+}
+.housr_icons {
+    background: url(https://i.tq121.com.cn/i/weather2017/weather_icon_b.png) no-repeat;
+}
+
+
  itemOne: "" ？？ 这个是控制奇数偶数列 背景颜色 
 template: "15" 时间点的天气温度
 time: "08" 24小时时间点 
 wather: "d01" icon 样式  
 windDY: "无持续风向" 
 windJB: "<3级"
+
+https://i.tq121.com.cn/i/weather2017/weather_icon_w.png
+
+https://i.tq121.com.cn/i/weather2017/weather_icon_b.png
+破解后 
+x
+ ["08时", "11时", "14时", "17时", "20时", "23时", "02时", "05时"]
+
+y
+
+"[
+   [
+      {
+         "itemOne": "",
+         "wather": "d01",
+         "windDY": "无持续风向",
+         "windJB": "<3级"
+      }
+   ],
+   [
+      {
+         "itemOne": "item-one",
+         "wather": "d01",
+         "windDY": "东风",
+         "windJB": "<3级"
+      }
+   ],
+   [
+      {
+         "itemOne": "",
+         "wather": "d01",
+         "windDY": "无持续风向",
+         "windJB": "<3级"
+      }
+   ],
+   [
+      {
+         "itemOne": "item-one",
+         "wather": "d01",
+         "windDY": "东北风",
+         "windJB": "<3级"
+      }
+   ],
+   [
+      {
+         "itemOne": "",
+         "wather": "n01",
+         "windDY": "无持续风向",
+         "windJB": "<3级"
+      }
+   ],
+   [
+      {
+         "itemOne": "item-one",
+         "wather": "n01",
+         "windDY": "东北风",
+         "windJB": "<3级"
+      }
+   ],
+   [
+      {
+         "itemOne": "",
+         "wather": "n01",
+         "windDY": "无持续风向",
+         "windJB": "<3级"
+      }
+   ],
+   [
+      {
+         "itemOne": "item-one",
+         "wather": "n07",
+         "windDY": "东北风",
+         "windJB": "<3级"
+      }
+   ]
+]"
+
+
 
 
 
@@ -370,3 +586,46 @@ windJB: "<3级"
     for (var g = a(s), y = [], x = [], b = 0; n > b; b++)
             y.push(e(b, g[b])),
             x.push(i(b, g[b]));
+
+ ###穿衣建议破解
+
+ ```
+var ct = $("#cy dt").find("em").html(),
+  ct_hint_num = "",
+  ct_hint = "";
+"炎热" == ct || "热" == ct ? (ct_hint_num = "cyIcon1",
+    ct_hint = "短袖") : "舒适" == ct ? (ct_hint_num = "cyIcon2",
+    ct_hint = "衬衫") : "较舒适" == ct ? (ct_hint_num = "cyIcon3",
+    ct_hint = "薄外套") : "较冷" == ct ? (ct_hint_num = "cyIcon4",
+    ct_hint = "厚毛衣") : (ct_hint_num = "cyIcon5",
+    ct_hint = "羽绒服"),
+  $(".weather_shzs ul li span.cy").addClass(ct_hint_num),
+  $("#cy dt").find("em").html(ct_hint),
+
+ ```
+function getClothes(str){
+    var clothes = ''
+    switch(str){
+      case "炎热":
+      case '热':
+        clothes = '短袖'
+        break;  
+      case "舒适":
+        clothes = '衬衫'
+        break;  
+      case "较舒适":
+       clothes = '薄外套'
+       break;  
+      case "较冷":
+        clothes = '厚毛衣'
+        break;  
+      default:
+        clothes = "羽绒服";
+        break;
+    } 
+  return clothes
+}
+
+
+console.log(getClothes("较冷"))
+

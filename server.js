@@ -6,36 +6,20 @@ router.prefix('/v1/koa');
 const port = process.env.PORT || 4003 
 const axios = require('axios')
 const cheerio = require('cheerio')
-function trim(str){
-    return str.replace(/(^\s*)|(\s*$)/g, "");
-}
 
-function trimdot(str){
-    return str.replace(/(^"*)|("$)/g, "");
-}
 
-        
-function temperatureScriptData(str){
-    let result = [];
-    let temperature =  str.replace("var eventDay =","")
-          .replace("var eventNight =","")
-          .replace("var fifDay =","")
-          .replace("var fifNight =","")
-          .replace("var sunup =","")
-          .replace("var sunset =","")
-          .replace("var blue =","")
-          .replace(/\n/g, "")
-          .split(";")
-          
-          temperature.pop()
-          result.push(temperature)
-          return result[0]
-   
-}        
- 
-        
+const utils = require('./config/utils');
+const trim = utils.trim;
+const trimdot = utils.trimdot;
+const temperatureScriptData = utils.temperatureScriptData;
+const getClothes = utils.getClothes
+const getLife = utils.getLife
+const getLv = utils.getLv
 
-// error handling
+
+
+
+// 错误捕获
 app.use(async (ctx, next) => {
   try {
     await next()
@@ -64,95 +48,34 @@ router.get('/city/:cityCode', ctx => {
           let updateTime = ''
           let lifeAdvices = []
           let lifeList = []
+          var lifeAdviceDateList = [];
 
-           
-
-          function getLifeListUv(index){
-               var res = {}
-               res.level = $(".weather_shzs .lv").eq(index).find("em").eq(index).text()
-               res.stars = $(".weather_shzs .lv").eq(index).find("p").eq(index).find("i.active").length
-               res.info = $(".weather_shzs .lv").eq(index).find("dd").eq(index).text()
-              return res 
-          } 
-
-           function getDl(index){
-               var res = {}
-               res.level = $(".weather_shzs .lv").eq(index).find("em").eq(index).text()
-               res.stars = $(".weather_shzs .lv").eq(index).find("p").eq(index).find("i.active").length
-               res.info = $(".weather_shzs .lv").eq(index).find("dd").eq(index).text()
-              return res 
-          } 
-
-          $(".weather_shzs .lv").each(function(item,index,arr){
-                var $this = $(this)
-                var obj = {}
-
-                var dlArr = []
-
-                for(var i=0;i<6;i++){
-                    var temp = []
-                    temp.push({
-                        "level":$this.find("dl").eq(i).find("em").text(),
-                        "stars":$this.find("dl").eq(i).find("p").find("i.active").length,
-                        "info":$this.find("dl").eq(i).find("dd").text()
-                    })
-                    dlArr.push(temp)
-                }      
-                console.log('dlArr',dlArr) 
-          })
-
-
-
-
-          $(".weather_shzs .shzsSevenDay ul li").each(function(item,indx,arr){
-               let $this = $(this);
-               let index = $this.index();
-               let domText = $(".lv").eq(index)
-              
-               lifeAdvices.push({
-                  "time":$this.text(),
-                  "uv":getLifeListUv(index),//紫外线
-                  "gm":"",//减肥
-                  "bl":"",//健臻·血糖
-                  "cy":"",//穿衣    
-                  "xc":"",//洗车
-                  "ks":""//空气污染扩散
-
-
-               }) 
-          })
-
-
-
-        
-
-          
-
+         //聚合7天数据 
           $('.date-container li').each(function(item,indx,arr){
                   let $this = $(this);
                   let index = $this.index();
-                if(index > 0){
+                  let weatherContentDom = $(".blue-container .blue-item").eq(index)
+                  let weatherLifeDom = $(".weather_shzs .lv").eq(index)
+                  if(index > 0){
                       data.push({
-                      date : trim($this.find(".date").text()),
-                      dateInfo:trim($this.find(".date-info").text())
+                          date : trim($this.find(".date").text()),
+                          dateInfo:trim($this.find(".date-info").text()),
+                          weatherStart:weatherContentDom.find(".item-icon").eq(0).attr("title"),
+                          weatherEnd:weatherContentDom.find(".item-icon").eq(1).attr("title"),
+                          weatherInfo:trim(weatherContentDom.find(".weather-info").text()),
+                          windStart:weatherContentDom.find(".wind-container").find(".wind-icon").eq(0).attr("title"),
+                          windEnd:weatherContentDom.find(".wind-container").find(".wind-icon").eq(1).attr("title"),
+                          windInfo:trim(weatherContentDom.find(".wind-info").text()),
+                          temperatureTimeList:[], //算法转换
+                          sunup:"",
+                          sunset:"",
+                          lifeDate:getLife(index-1,$),
+                          lifeAssistant:getLv(index-1,$)
                     });
                 } 
           })
 
-          $(".blue-container .blue-item").each(function(item,indx,arr){
-                let $this = $(this);
-                  let index = $this.index();
-                if(index > 0){
-                      weatherInfo.push({
-                      weatherStart:$this.find(".item-icon").eq(0).attr("title"),
-                      weatherEnd:$this.find(".item-icon").eq(1).attr("title"),
-                      weatherInfo:trim($this.find(".weather-info").text()),
-                      windStart:$this.find(".wind-container").find(".wind-icon").eq(0).attr("title"),
-                      windEnd:$this.find(".wind-container").find(".wind-icon").eq(1).attr("title"),
-                      windInfo:trim($this.find(".wind-info").text())
-                    });
-                } 
-          })
+    
           
   
           //温度
@@ -183,7 +106,7 @@ router.get('/city/:cityCode', ctx => {
                 
           }) 
 
-          //hour3data 这个数据在变的 
+          //hour3data 这个数据在变的 没刷新都不一样
 
           $(".weather_7d .houers-container").eq(0).find("li").each(function(item,indx,arr){
                      let $this = $(this);
@@ -248,14 +171,12 @@ var y = [
                       "msg": "操作成功",
                       "code": 200,
                       "data": {
-                          "date":data,//结果集合
-                          "weatherInfo":weatherInfo,
+                          "list":data,//结果集合
+                          // "weatherInfo":weatherInfo,
                           "temperatureData":temperatures,
                           "dayHour":dayHour,
                           "dayHourList":dayHourList,
                           "hour3data":"hour3data", //绘制每小时天气预报的折线图数据 
-                          "lifeAdvices":lifeAdvices,
-                          "lifeList":lifeList,
                           "uptime":trimdot(hour3data[2].replace("var uptime=","")) + '| 数据来源 中央气象台'
 
                       }
