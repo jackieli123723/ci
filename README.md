@@ -117,20 +117,7 @@ http://www.weather.com.cn/weather40dn/101010100.shtml
 
 http://www.weather.com.cn/data/sk/101010100.html 这个接口返回的数据是实况数据，像下面这样的。
 
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
+
 {
     "weatherinfo": {
         "city": "北京", // 城市中文名
@@ -147,18 +134,7 @@ http://www.weather.com.cn/data/sk/101010100.html 这个接口返回的数据是�
 }
 　　还有一个接口http://www.weather.com.cn/data/cityinfo/101010100.html 这个接口返回的数据如下。
 
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
+
 {
     "weatherinfo": {
         "city": "北京", // 城市中文名
@@ -205,8 +181,13 @@ http://www.weather.com.cn/data/sk/101010100.html 这个接口返回的数据是�
                   "xc":"",//洗车
                   "ks":""//空气污染扩散
 
+var n=24
 
-### 破解算法 重新组装 
+var s = hour3data[0]
+
+
+### 破解算法 重新组装  考虑温度趋势 
+
     function e(t, a) {
         var e = [];
         var temp = {};
@@ -214,6 +195,7 @@ http://www.weather.com.cn/data/sk/101010100.html 这个接口返回的数据是�
             temp.wather = a.wather
             temp.windDY = a.windDY
             temp.windJB = a.windJB
+            temp.template = a.template
 
         e.push(temp)
         return e
@@ -629,3 +611,101 @@ function getClothes(str){
 
 console.log(getClothes("较冷"))
 
+
+###
+
+function flatten (arr, curr) {
+  if (Array.isArray(curr)) {
+    arr.push(...curr)
+  } else {
+    arr.push(curr)
+  }
+  return arr
+}
+
+
+
+  var arr = [ [ { itemOne: '',
+      wather: 'd01',
+      windDY: '无持续风向',
+      windJB: '<3级',
+      template: '15' } ],
+  [ { itemOne: 'item-one',
+      wather: 'd01',
+      windDY: '东风',
+      windJB: '<3级',
+      template: '18' } ],
+  [ { itemOne: '',
+      wather: 'd01',
+      windDY: '无持续风向',
+      windJB: '<3级',
+      template: '21' } ],
+  [ { itemOne: 'item-one',
+      wather: 'd01',
+      windDY: '东北风',
+      windJB: '<3级',
+      template: '21' } ],
+  [ { itemOne: '',
+      wather: 'n01',
+      windDY: '无持续风向',
+      windJB: '<3级',
+      template: '18' } ],
+  [ { itemOne: 'item-one',
+      wather: 'n01',
+      windDY: '东北风',
+      windJB: '<3级',
+      template: '16' } ],
+  [ { itemOne: '',
+      wather: 'n01',
+      windDY: '无持续风向',
+      windJB: '<3级',
+      template: '14' } ],
+  [ { itemOne: 'item-one',
+      wather: 'n07',
+      windDY: '东北风',
+      windJB: '<3级',
+      template: '14' } ] ]
+
+
+console.log(arr.reduce(flatten, []))
+
+[ { itemOne: '',
+    wather: 'd01',
+    windDY: '无持续风向',
+    windJB: '<3级',
+    template: '15' },
+  { itemOne: 'item-one',
+    wather: 'd01',
+    windDY: '东风',
+    windJB: '<3级',
+    template: '18' },
+  { itemOne: '',
+    wather: 'd01',
+    windDY: '无持续风向',
+    windJB: '<3级',
+    template: '21' },
+  { itemOne: 'item-one',
+    wather: 'd01',
+    windDY: '东北风',
+    windJB: '<3级',
+    template: '21' },
+  { itemOne: '',
+    wather: 'n01',
+    windDY: '无持续风向',
+    windJB: '<3级',
+    template: '18' },
+  { itemOne: 'item-one',
+    wather: 'n01',
+    windDY: '东北风',
+    windJB: '<3级',
+    template: '16' },
+  { itemOne: '',
+    wather: 'n01',
+    windDY: '无持续风向',
+    windJB: '<3级',
+    template: '14' },
+  { itemOne: 'item-one',
+    wather: 'n07',
+    windDY: '东北风',
+    windJB: '<3级',
+    template: '14' } ]

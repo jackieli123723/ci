@@ -1,7 +1,67 @@
+
+var len = $(".containera").eq(1).find("a").length;
+var code =[];
+var cname = [];
+
+for(var i=0;i<len;i++){
+var citCode = $(".containera").eq(1).find("a").eq(i).attr('href').split("/")[4].replace(".shtml","");
+var city = $(".containera").eq(1).find("a").eq(i).text();
+
+ code.push(citCode);
+ cname.push(city);
+}
+
+
+
+function get(cname,code){
+ var obj = {}
+ 
+ for(var i=0;i<cname.length;i++){
+     obj[cname[i]] = code[i]
+ }
+ return obj
+}
+
+console.log(JSON.stringify(get(cname,code),null,3))
+
+
+## lbs 腾讯地图 
+
+
+    "ad_info": {
+            "nation_code": "156",
+            "adcode": "510107",
+            "city_code": "156510100",
+            "name": "中国,四川省,成都市,武侯区",
+            "location": {
+                "lat": 30.64242,
+                "lng": 104.043114
+            },
+            "nation": "中国",
+            "province": "四川省",
+            "city": "成都市",
+            "district": "武侯区"
+        },
+http://www.weather.com.cn/weather1dn/101270101.shtml  成都 单天
+
+http://www.weather.com.cn/weathern/101270101.shtml  成都  7天
+
+http://www.weather.com.cn/weather1dn/101270401.shtml 绵阳当天
+http://www.weather.com.cn/weathern/101270401.shtml  绵阳 
+
+
+一期功能 只做每个城市
+
+
+当天的天气预报背景图 
+
+https://i.tq121.com.cn/i/weather2017/weatherBg01.jpg
+https://i.tq121.com.cn/i/weather2017/weatherBg02.jpg
+
 ### .blueFor-container script
 
 
-var eventDay =["18","20","22","18","16","15","16","17"]; 7天白天 第一个是昨天的
+var eventDay =["18","20","22","18","16","15","16","17"]; 7天白天 第一个是昨天的 8
 var eventNight =["2","5","4","7","6","5","4","5"]; 7天晚上
 var fifDay =["13","17","15","15","15","13","13","9"];
 var fifNight =["7","7","6","5","4","4","2","1"];
@@ -21,7 +81,34 @@ temperatureData: [
 "["2","2","1","1","2","2","2"]"
 ],
 
+ ### hour3data 的数据格式是7个数组 
+ 分别长度 12 24 24 16 8 8 8
 
+###??
+	    12 24 24 16 8 8 8
+		24 24 24 8  8 8 8 //17:37
+
+hour3data (7) [Array(12), Array(24), Array(24), Array(16), Array(8), Array(8), Array(8)] //17:52
+
+
+  // var eventDay =["18","20","22","18","16","15","16","17"]; 7天白天 第一个是昨天的 8
+            // var eventNight =["2","5","4","7","6","5","4","5"]; 7天晚上
+            // var fifDay =["13","17","15","15","15","13","13","9"];
+            // var fifNight =["7","7","6","5","4","4","2","1"];
+            // var sunup =["06:39","06:40","06:41","06:42","06:43","06:44","06:45"]; 明天日出
+            // var sunset =["17:17","17:15","17:14","17:13","17:12","17:11","17:09"]; 今日日落
+            // var blue =["2","2","2","2","2","2","2"];
+
+            // "max_degree": "21",
+            // "min_degree": "15",
+            //"sunup"
+            //"sunset"
+
+          //.details-container script 所有的绘制每隔1小时 3小时的数据
+
+        // 12 24 24 16 8 8 8
+        // 24 24 24 8  8 8 8
+        // 24 24 24 8 8 8 8       
 
 jQuery1113028929594206964526_1572435164158&&jQuery1113028929594206964526_1572435164158({
     "status": 0,
