@@ -77,13 +77,13 @@ router.get('/weather/:cityCode', ctx => {
                       data.push({
                           date : trim($this.find(".date").text()),
                           dateInfo:trim($this.find(".date-info").text()),
-                          weatherStart:weatherContentDom.find(".item-icon").eq(0).attr("title"),
-                          weatherEnd:weatherContentDom.find(".item-icon").eq(1).attr("title"),
+                          day_weather:weatherContentDom.find(".item-icon").eq(0).attr("title"),
+                          night_weather:weatherContentDom.find(".item-icon").eq(1).attr("title"),
                           weatherInfo:trim(weatherContentDom.find(".weather-info").text()),
-                          windStart:weatherContentDom.find(".wind-container").find(".wind-icon").eq(0).attr("title"),
-                          windEnd:weatherContentDom.find(".wind-container").find(".wind-icon").eq(1).attr("title"),
+                          day_wind:weatherContentDom.find(".wind-container").find(".wind-icon").eq(0).attr("title"),
+                          night_wind:weatherContentDom.find(".wind-container").find(".wind-icon").eq(1).attr("title"),
                           windInfo:trim(weatherContentDom.find(".wind-info").text()),
-                          temperatureTimeList:getPerTimeList((jsonToObj(hour3data[0]))[index-1]).drgeeData, //算法转换
+                          forecastList:getPerTimeList((jsonToObj(hour3data[0]))[index-1]).drgeeData, //算法转换
                           sunup:getDegree(jsonToObj(temperatures[4]),index-1),
                           sunset:getDegree(jsonToObj(temperatures[5]),index-1),
                           max_degree:getDegree(jsonToObj(temperatures[0]),index),

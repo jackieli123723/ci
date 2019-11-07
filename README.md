@@ -709,3 +709,33 @@ console.log(arr.reduce(flatten, []))
     windDY: '东北风',
     windJB: '<3级',
     template: '14' } ]
+
+    ###
+    lenovo@lenovo-PC MINGW64 /e/jackieli/node-code-write-练习/node-cli-weather (master)
+$ node ./bin/weaher.js  -c 101270101
+{
+    "msg": "操作成功",
+    "code": 200,
+    "data": {
+        "list": [
+            {
+                "date": "6日",
+                "dateInfo": "今天",
+                "day_weather": "晴",
+                "night_weather": "晴",
+                "weatherInfo": "晴",
+                "day_wind": "无持续风向",
+                "night_wind": "无持续风向",
+                "windInfo": "<3级",
+                "forecastList": [
+                    {
+                        "itemOne": "",
+                        "wather": "d02",
+                        "windDY": "无持续风向",
+                        "windJB": "<3级",
+                        "degree": "14",
+                        "time": "08"
+                    },
+                    {
+                        "itemOne": "item-one",
+

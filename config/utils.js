@@ -1,3 +1,4 @@
+const chalk = require('chalk')
 function trim(str){
     return str.replace(/(^\s*)|(\s*$)/g, "");
 }
@@ -22,7 +23,65 @@ function temperatureScriptData(str){
           result.push(temperature)
           return result[0]
 }        
- 
+
+ // //白天晴  n00晚上晴  icon不一样 
+function weatherType(wather){
+  var weatherArr={
+    "00": "晴", 
+    "01": "多云", 
+    "02": "阴", 
+    "03": "阵雨", 
+    "04": "雷阵雨", 
+    "05": "雷阵雨伴有冰雹", 
+    "06": "雨夹雪", 
+    "07": "小雨", 
+    "08": "中雨", 
+    "09": "大雨",
+    "10": "暴雨", 
+    "11": "大暴雨", 
+    "12": "特大暴雨", 
+    "13": "阵雪", 
+    "14": "小雪", 
+    "15": "中雪", 
+    "16": "大雪", 
+    "17": "暴雪", 
+    "18": "雾", 
+    "19": "冻雨", 
+    "20": "沙尘暴", 
+    "21": "小到中雨", 
+    "22": "中到大雨", 
+    "23": "大到暴雨", 
+    "24": "暴雨到大暴雨", 
+    "25": "大暴雨到特大暴雨", 
+    "26": "小到中雪", 
+    "27": "中到大雪", 
+    "28": "大到暴雪", 
+    "29": "浮尘", 
+    "30": "扬沙", 
+    "31": "强沙尘暴", 
+    "32":"雾",
+    "49":"雾",
+    "53": "霾", 
+    "54": "轻度霾", 
+    "55": "重度霾", 
+    "56": "极重度霾", 
+    "57": "雾", 
+    "58": "雾", 
+    "97":"中雨",
+    "98":"中雪",
+    "99": "N/A",
+    "301":"中雨",
+    "302":"中雪"
+}; 
+
+var strArr = wather.split("")
+strArr.shift()
+
+var newStr = strArr.join('')
+
+return weatherArr[newStr]
+
+} 
 function getClothes(str){
     //这里要区分其它指标 
     var clothes = ''
@@ -115,7 +174,7 @@ function getDegree(arr,index){
         var e = [];
         var temp = {};
             temp['itemOne'] = a['itemOne']
-            temp['wather'] = a['wather']
+            temp['wather'] = weatherType(a['wather'])
             temp['windDY'] = a['windDY']
             temp['windJB'] = a['windJB']
             temp['degree'] = a['degree'] //每个时段的温度绘制曲线
@@ -155,7 +214,59 @@ function getDegree(arr,index){
                     drgeeData:y.reduce(flatten, [])
                 }
     }
-        
+
+  function tableData(list){
+       let tableHead = ['日期', '最高温度', '最低温度','天气详情','白天天气','夜晚天气','风向级别','白天风向','夜晚风向','今日日落','明日日出']
+       let tableData = []
+       for(var i=0;i<list.length;i++){
+            var temp = []
+            temp.push(list[i].lifeDate,list[i].max_degree+'°C',list[i].min_degree+'°C',list[i].weatherInfo,list[i].day_weather,list[i].night_weather,list[i].windInfo,list[i].day_wind,list[i].night_wind,list[i].sunset,list[i].sunup)
+            tableData.push(temp)
+       }
+      tableData.unshift(tableHead)
+    // console.log(tableData)
+     
+     return tableData
+   
+    }
+
+
+  function tabelDataHourly(data,date){
+       let tableHead = ['逐小时预报','天气','温度','风向','风向级别']
+       let tableData = []
+       let list = []
+
+       for(var j=0;j<data.length;j++){
+           if(data[j]['lifeDate'] == date){
+             list.push(data[j]['forecastList'])
+           }
+       }
+       
+       if(list.length == 0){
+           console.log(chalk.red(' --date Invalid parameter value '));
+           process.exit(0)
+       }
+
+       for(var i=0;i<list[0].length;i++){
+            var temp = []
+            temp.push(list[0][i].time+'时',list[0][i].wather,list[0][i].degree+'°C',list[0][i].windDY,list[0][i].windJB)
+            tableData.push(temp)
+       }
+ 
+      let tableHeadIsHour = list[0].length > 8 ? '逐小时预报' : '逐3小时预报'
+      tableHead[0] = tableHeadIsHour
+      tableData.unshift(tableHead)
+
+   
+      // console.log(tableData)
+       return tableData
+
+   
+  }  
+
+
+
+   
 module.exports = {
     trim: trim,
     trimdot: trimdot,
@@ -169,5 +280,8 @@ module.exports = {
     intervalData:intervalData,
     timeFormat:timeFormat,
     sourceData:sourceData,
-    getPerTimeList:getPerTimeList
+    getPerTimeList:getPerTimeList,
+    tableData:tableData,
+    weatherType:weatherType,
+    tabelDataHourly:tabelDataHourly
 };

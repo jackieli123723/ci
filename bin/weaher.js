@@ -1,22 +1,52 @@
 #!/usr/bin/env node
 
-
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // /!\ author:jackieli /!\
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+const program = require('commander')
+const chalk = require('chalk')
+const version = require('../package').version
+program
+  .version(version, '-v, --version')
+  .option('-c, --city', 'cityCode or cityName')
+  .option('-j, --json', 'weather data stdout format is json')
+  .option('-t, --table', 'weather data stdout format is table chart')
+  .option('-d, --day', 'weather data is seven data default')
+  .option('-hourly', 'weather data forecast is 24 hours per time is one data')
+  .option('-date', 'weather data forecast is time Hourly forecast')
 
-const chalk = require('chalk');
+
+program.on('--help', function() {
+  console.log('');
+  console.log('Examples:');
+  console.log('');
+  console.log('  $ weather --help');
+  console.log('  $ weather -h');
+  console.log('  $ weather -c <cityName> -j')
+  console.log('  $ weather -c <cityName> -t')
+  console.log('  $ weather -c <cityName> -t -hourly -date 11-09')
+});
 
 
-if (!process.argv[2]) {
-  console.log(chalk.green('Weather ~ ' + require('../package').version));
-  console.log(chalk.red('Grabbing Weather Forecast Data'));
-  console.log(chalk.cyan('  $ ') + 'fanyi word');
-  console.log(chalk.cyan('  $ ') + 'fanyi world peace');
-  console.log(chalk.cyan('  $ ') + 'fanyi chinglish');
-  return;
-}
+program.parse(process.argv);
+
+if(!program.args.length) program.help();
+
+const weather = require('../lib/weather.js')
+weather.sevenData()
+
+
+// if (!process.argv[2]) {
+//   console.log(chalk.green('Weather ~ ' + require('../package').version));
+//   console.log(chalk.red('Grabbing Weather Forecast Data'));
+//   console.log(chalk.cyan('  $ ') + 'wci -city 北京 -day 7');
+//   console.log(chalk.cyan('  $ ') + 'wci -city 成都 -day 7 -d ./out');
+//   console.log(chalk.cyan('  $ ') + 'wci -city 成都 -day 7 -chart');
+//   return;
+// }
+
+
 
 
 
@@ -52,6 +82,8 @@ if (!process.argv[2]) {
 
 //weather --city  --chart 可视化 图片 
 
+//weather -c 北京 -json 
+//weather -c 北京 -table 
 
 //mdcli 
 

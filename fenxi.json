@@ -1,4 +1,346 @@
+### today 
+http://i.tq121.com.cn/j/weather2017/c_1d_main_city.js
 
+这个天气icon
+###https://dev.heweather.com/docs/refer/condition
+
+##中国天气种类
+
+https://www.jianshu.com/p/e3e04cf3fc0f
+
+
+小程序 下载图片 
+
+https://apip.weatherdt.com/view/static/images/cond/cond-a-00d.png
+https://apip.weatherdt.com/view/static/images/cond/cond-a-31d.png
+
+/格式说明 
+var format={"fa":图片1,"fb"：图片2,"fc":温度1,fd：温度2,fe:风向1,ff：风向2,fg:风力1,fh：风力2,fi:日出日落}; 
+//定义天气类型
+var weatherArr={
+	"00": "晴", 
+    "01": "多云", 
+    "02": "阴", 
+    "03": "阵雨", 
+    "04": "雷阵雨", 
+    "05": "雷阵雨伴有冰雹", 
+    "06": "雨夹雪", 
+    "07": "小雨", 
+    "08": "中雨", 
+    "09": "大雨",
+    "10": "暴雨", 
+    "11": "大暴雨", 
+    "12": "特大暴雨", 
+    "13": "阵雪", 
+    "14": "小雪", 
+    "15": "中雪", 
+    "16": "大雪", 
+    "17": "暴雪", 
+    "18": "雾", 
+    "19": "冻雨", 
+    "20": "沙尘暴", 
+    "21": "小到中雨", 
+    "22": "中到大雨", 
+    "23": "大到暴雨", 
+    "24": "暴雨到大暴雨", 
+    "25": "大暴雨到特大暴雨", 
+    "26": "小到中雪", 
+    "27": "中到大雪", 
+    "28": "大到暴雪", 
+    "29": "浮尘", 
+    "30": "扬沙", 
+    "31": "强沙尘暴", 
+    "32":"雾",
+    "49":"雾",
+    "53": "霾", 
+    "54": "轻度霾", 
+    "55": "重度霾", 
+    "56": "极重度霾", 
+    "57": "雾", 
+    "58": "雾", 
+    "97":"中雨",
+    "98":"中雪",
+    "99": "N/A",
+    "301":"中雨",
+    "302":"中雪"
+}; 
+
+ https://apip.weatherdt.com/view/static/images/cond/cond-a-01d.png
+
+
+ 'n301':"雨",、、
+ n302 雪
+
+### 天气种类 
+36+11
+47种 
+
+https://i.tq121.com.cn/i/weather2017/weather_icon_b.png
+https://i.tq121.com.cn/i/weather2017/weather_icon_w.png
+
+.n00 {
+    background-position: -560px -240px
+}
+
+.n02 {
+    background-position: -160px 0
+}
+
+.n01 {
+    background-position: -640px -240px
+}
+
+.n03 {
+    background-position: -720px -240px
+}
+
+.n04 {
+    background-position: -320px 0
+}
+
+.n05 {
+    background-position: -400px 0
+}
+
+.n06 {
+    background-position: -480px 0
+}
+
+.n07 {
+    background-position: -560px 0
+}
+
+.n08 {
+    background-position: -640px 0
+}
+
+.n09 {
+    background-position: -720px 0
+}
+
+.n10 {
+    background-position: -800px 0
+}
+
+.n11 {
+    background-position: -880px 0
+}
+
+.n12 {
+    background-position: 0 -80px
+}
+
+.n13 {
+    background-position: -800px -240px
+}
+
+.n14 {
+    background-position: -160px -80px
+}
+
+.n15 {
+    background-position: -240px -80px
+}
+
+.n16 {
+    background-position: -320px -80px
+}
+
+.n17 {
+    background-position: -400px -80px
+}
+
+.n18 {
+    background-position: -480px -80px
+}
+
+.n19 {
+    background-position: -560px -80px
+}
+
+.n20 {
+    background-position: -640px -80px
+}
+
+.n21 {
+    background-position: -720px -80px
+}
+
+.n22 {
+    background-position: -800px -80px
+}
+
+.n23 {
+    background-position: -880px -80px
+}
+
+.n24 {
+    background-position: 0 -160px
+}
+
+.n25 {
+    background-position: -80px -160px
+}
+
+.n26 {
+    background-position: -160px -160px
+}
+
+.n27 {
+    background-position: -240px -160px
+}
+
+.n28 {
+    background-position: -320px -160px
+}
+
+.n29 {
+    background-position: -400px -160px
+}
+
+.n30 {
+    background-position: -480px -160px
+}
+
+.n31 {
+    background-position: -560px -160px
+}
+
+.n53 {
+    background-position: -640px -160px
+}
+
+.n99 {
+    background-position: -720px -160px
+}
+
+.n32 {
+    background-position: -800px -160px
+}
+
+.n49 {
+    background-position: -880px -160px
+}
+
+.n54 {
+    background-position: 0 -240px
+}
+
+.n55 {
+    background-position: -80px -240px
+}
+
+.n56 {
+    background-position: -160px -240px
+}
+
+.n57 {
+    background-position: -800px -160px
+}
+
+.n58 {
+    background-position: -800px -160px
+}
+
+.n301 {
+    background-position: -400px -240px
+}
+
+.n302 {
+    background-position: -480px -240px
+}
+
+.n97 {
+    background-position: -400px -240px
+}
+
+.n98 {
+    background-position: -480px -240px
+}
+
+
+
+//定义风向数组 
+var fxArr={
+    "0": "无持续风向", 
+    "1": "东北风", 
+    "2": "东风", 
+    "3": "东南风", 
+    "4": "南风", 
+    "5": "西南风", 
+    "6": "西风", 
+    "7": "西北风", 
+    "8": "北风", 
+    "9": "旋转风"
+};
+//定义风力数组 
+var flArr={
+    "0": "微风", 
+    "1": "3-4级", 
+    "2": "4-5级", 
+    "3": "5-6级", 
+    "4": "6-7级", 
+    "5": "7-8级", 
+    "6": "8-9级", 
+    "7": "9-10级", 
+    "8": "10-11级", 
+    "9": "11-12级"
+};
+
+
+
+var skUrl = "http://d1.weather.com.cn/sk_2d/" + cityId + ".html"
+  , alarmDataUrl = "http://d1.weather.com.cn/dingzhi/_id_.html";
+$.ajax({
+    type: "GET",
+    url: skUrl,
+    dataType: "script",
+    success: function() {
+        if (dataSK && "暂无实况" != dataSK.temp) {
+            $(".todayLeft .togetherWeatherBox .mostWeather span").empty().append(dataSK.weather),
+            $("#temp").html(Number(dataSK.temp)),
+            $("#weather").html(dataSK.weather),
+            $("#time").html(dataSK.time),
+            $("#wind").html(dataSK.WD + " " + dataSK.WS),
+            $("#humidity").html(dataSK.sd);
+            var t = dataSK.aqi;
+            if (t) {
+                var e = 50 >= t && "lev1" || 100 >= t && "lev2" || 150 >= t && "lev3" || 200 >= t && "lev4" || 300 >= t && "lev5" || t > 300 && "lev6" || "lev7"
+                  , a = 50 >= t && "优" || 100 >= t && "良" || 150 >= t && "轻度污染" || 200 >= t && "中度污染" || 300 >= t && "重度污染" || t > 300 && "严重污染" || ""
+                  , i = '<a style="color:#fff" href="http://www.weather.com.cn/air/?city=' + dataSK.city + '" target="_blank" class="' + e + '">' + t + " " + a + "</a>";
+                $("#aqi").css({
+                    height: "20px",
+                    lineHeight: "20px",
+                    borderRadius: "10px",
+                    margin: "15px 4%",
+                    width: "40%"
+                }),
+                $("#aqi").append(i)
+            } else
+                $("#aqi").addClass("dis"),
+                setTimeout(function() {
+                    $(".sk_alarm").css({
+                        "margin-left": "25%"
+                    })
+                }, 500);
+            var s = dataSK.weathercode.slice(1, dataSK.weathercode.length)
+              , r = new Date
+              , l = getWeatherBg(r.getHours(), s);
+            $(".todayModel").addClass(l)
+        } else
+            $(".todayLeft").css("background", 'url("http://i.tq121.com.cn/i/weather2014/city/zw.jpg") no-repeat scroll center center').empty()
+    }
+});
+
+skUrl
+"http://d1.weather.com.cn/sk_2d/101010100.html"
+eventDay
+(8) ["16", "17", "16", "13", "16", "13", "17", "16"]
+eventNight
+(8) ["4", "6", "5", "1", "2", "3", "4", "3"]
+
+
+###
 var len = $(".containera").eq(1).find("a").length;
 var code =[];
 var cname = [];
