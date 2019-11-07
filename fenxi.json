@@ -14,6 +14,9 @@ https://www.jianshu.com/p/e3e04cf3fc0f
 https://apip.weatherdt.com/view/static/images/cond/cond-a-00d.png
 https://apip.weatherdt.com/view/static/images/cond/cond-a-31d.png
 
+
+@@@https://www.jianshu.com/p/e3e04cf3fc0f
+
 /格式说明 
 var format={"fa":图片1,"fb"：图片2,"fc":温度1,fd：温度2,fe:风向1,ff：风向2,fg:风力1,fh：风力2,fi:日出日落}; 
 //定义天气类型
@@ -426,9 +429,28 @@ temperatureData: [
  ### hour3data 的数据格式是7个数组 
  分别长度 12 24 24 16 8 8 8
 
-###??
+###??  7day 
+
 	    12 24 24 16 8 8 8
 		24 24 24 8  8 8 8 //17:37
+
+
+		today 
+
+		12 24 24 16 8 8 8  [draw 数组为24个长度 ]
+
+var eventDay =["14","13","15","14","17","16","14","6"];
+var eventNight =["6","1","2","4","5","2","3","-1"];
+var fifDay =["9","6","10","10","12","9","7","7"];
+var fifNight =["-3","-1","0","1","2","0","0","-1"];
+var sunup =["06:48","06:49","06:50","06:51","06:52","06:54","06:55"];
+var sunset =["17:07","17:06","17:05","17:04","17:03","17:02","17:01"];
+var blue =["2","3","3","1","1","2","1"];
+
+
+observe24h_data
+
+
 
 hour3data (7) [Array(12), Array(24), Array(24), Array(16), Array(8), Array(8), Array(8)] //17:52
 
