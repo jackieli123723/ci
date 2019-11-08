@@ -1,6 +1,133 @@
 ### today 
 http://i.tq121.com.cn/j/weather2017/c_1d_main_city.js
 
+
+https://www.lao-wang.com/?p=80
+中国天气网中，大连的天气地址是：http://www.weather.com.cn/weather1d/101070201.shtml
+通过Chrome的开发者工具观察页面，页面调用Ajax从如下网址获得天气信息的JS代码：
+天气实况：http://d1.weather.com.cn/sk_2d/101070201.html
+天气预报：http://d1.weather.com.cn/dingzhi/101070201.html
+但是用浏览器直接打开，会得到“403拒绝访问”。那就一定是在发送请求的时候附带了某种信息，以区别是否是自己的网页来调用。首先想到的是cookies，但是模拟之后还是403。再就模拟添加Refere头，发现可以获得数据了！
+用Python从中国天气网定时抓取天气实况 - 第1张  | 老王的网站
+var dataSK = {"nameen":"dalian","cityname":"大连","city":"101070201","temp":"19","tempf":"66","WD":"南风","wde":"S ","WS":"4级","wse":"16-24km/h","SD":"67%","time":"19:35","weather":"晴","weathere":"Sunny","weathercode":"n00","qy":"1003","njd":"35000","sd":"67%","rain":"0","rain24h":"0","aqi":"46","limitnumber":"","aqi_pm25":"46","date":"06月05日(星期一)"}
+1
+var dataSK = {"nameen":"dalian","cityname":"大连","city":"101070201","temp":"19","tempf":"66","WD":"南风","wde":"S ","WS":"4级","wse":"16-24km/h","SD":"67%","time":"19:35","weather":"晴","weathere":"Sunny","weathercode":"n00","qy":"1003","njd":"35000","sd":"67%","rain":"0","rain24h":"0","aqi":"46","limitnumber":"","aqi_pm25":"46","date":"06月05日(星期一)"}
+剩下的就是用Python将返回的JS代码处理一下，变成标准的JSON格式，解析之后就可以使用了。
+import urllib2
+import json
+def getWeatherInfo():
+    request = urllib2.Request("http://d1.weather.com.cn/sk_2d/101070201.html")
+    request.add_header('Referer', 'http://www.weather.com.cn/weather1d/101070201.shtml')
+  
+
+for (var html = "", windDY = ["无持续风向", "东北风", "东风", "东南风", "南风", "西南风", "西风", "西北风", "北风", "旋转风"], windJB = ["<3级", "3-4级", "4-5级", "5-6级", "6-7级", "7-8级", "8-9级", "9-10级", "10-11级", "11-12级"], qxbm = {
+    0: "晴",
+    1: "多云",
+    2: "阴",
+    3: "阵雨",
+    4: "雷阵雨",
+    5: "雷阵雨伴有冰雹",
+    6: "雨夹雪",
+    7: "小雨",
+    8: "中雨",
+    9: "大雨",
+    "00": "晴",
+    "01": "多云",
+    "02": "阴",
+    "03": "阵雨",
+    "04": "雷阵雨",
+    "05": "雷阵雨伴有冰雹",
+    "06": "雨夹雪",
+    "07": "小雨",
+    "08": "中雨",
+    "09": "大雨",
+    10: "暴雨",
+    11: "大暴雨",
+    12: "特大暴雨",
+    13: "阵雪",
+    14: "小雪",
+    15: "中雪",
+    16: "大雪",
+    17: "暴雪",
+    18: "雾",
+    19: "冻雨",
+    20: "沙尘暴",
+    21: "小到中雨",
+    22: "中到大雨",
+    23: "大到暴雨",
+    24: "暴雨到大暴雨",
+    25: "大暴雨到特大暴雨",
+    26: "小到中雪",
+    27: "中到大雪",
+    28: "大到暴雪",
+    29: "浮尘",
+    30: "扬沙",
+    31: "强沙尘暴",
+    53: "霾",
+    99: "无",
+    32: "浓雾",
+    49: "强浓雾",
+    54: "中度霾",
+    55: "重度霾",
+    56: "严重霾",
+    57: "大雾",
+    58: "特强浓雾",
+    97: "雨",
+    98: "雪",
+    301: "雨",
+    302: "雪"
+}, i = 0; i < hour3data[0].length; i++) {
+    var dayNight = "d";
+    dayNight = hour3data[0][i].jf.slice(8, 10) >= 20 || hour3data[0][i].jf.slice(8, 10) < 6 ? "n" : "d",
+    html += 1 == i ? '<li class="cur"><div class="time">' + hour3data[0][i].jf.slice(8, 10) + '时</div><i class="weather housr_icons_w ' + dayNight + hour3data[0][i].ja + '" title="' + qxbm[hour3data[0][i].ja] + '"></i><div class="charts"></div><div class="wind">' + windDY[hour3data[0][i].jd] + '</div><div class="windL">' + windJB[hour3data[0][i].jc] + "</div></li>" : '<li><div class="time">' + hour3data[0][i].jf.slice(8, 10) + '时</div><i class="weather housr_icons_w ' + dayNight + hour3data[0][i].ja + '" title="' + qxbm[hour3data[0][i].ja] + '"></i><div class="charts"></div><div class="wind">' + windDY[hour3data[0][i].jd] + '</div><div class="windL">' + windJB[hour3data[0][i].jc] + "</div></li>"
+}
+for (var lastLength = 24 - hour3data[0].length, i = 0; lastLength > i; i++) {
+    var dayNight = "d";
+    dayNight = hour3data[1][i].jf.slice(8, 10) >= 20 || hour3data[1][i].jf.slice(8, 10) < 6 ? "n" : "d",
+    html += 1 == i ? '<li class="cur"><div class="time">' + hour3data[1][i].jf.slice(8, 10) + '时</div><i class="weather housr_icons_w ' + dayNight + hour3data[1][i].ja + '" title="' + qxbm[hour3data[1][i].ja] + '"></i><div class="charts"></div><div class="wind">' + windDY[hour3data[1][i].jd] + '</div><div class="windL">' + windJB[hour3data[1][i].jc] + "</div></li>" : '<li><div class="time">' + hour3data[1][i].jf.slice(8, 10) + '时</div><i class="weather housr_icons_w ' + dayNight + hour3data[1][i].ja + '" title="' + qxbm[hour3data[1][i].ja] + '"></i><div class="charts"></div><div class="wind">' + windDY[hour3data[1][i].jd] + '</div><div class="windL">' + windJB[hour3data[1][i].jc] + "</div></li>"
+}
+$("#weatherALL").html(html);
+var riseHour = parseInt(sunup[0].slice(0, 2))
+  , riseMinutes = parseInt(sunup[0].slice(3, 5))
+  , riseAllM = 60 * riseHour + riseMinutes
+  , setHour = parseInt(sunset[0].slice(0, 2))
+  , setMinutes = parseInt(sunset[0].slice(3, 5))
+  , setAllM = 60 * setHour + setMinutes
+  , nowData = new Date
+  , hours = nowData.getHours()
+  , minutes = nowData.getMinutes()
+  , nowAllM = 60 * hours + minutes;
+riseAllM > nowAllM ? ($("#sunSet").html(sunset[0]),
+$("#sunRise").html(sunup[0]),
+$("#sunSetDiv").css({
+    "float": "right"
+}),
+$("#sunRiseDiv").css({
+    "float": "left"
+}),
+$("#sunRiseName").html("今日日出"),
+$("#sunSetName").html("今日日落")) : nowAllM >= riseAllM && setAllM > nowAllM ? ($("#sunSet").html(sunset[0]),
+$("#sunRise").html(sunup[1]),
+$("#sunSetDiv").css({
+    "float": "left"
+}),
+$("#sunRiseDiv").css({
+    "float": "right"
+}),
+$("#sunRiseName").html("明日日出"),
+$("#sunSetName").html("今日日落")) : ($("#sunSet").html(sunset[1]),
+$("#sunRise").html(sunup[1]),
+$("#sunSetDiv").css({
+    "float": "right"
+}),
+$("#sunRiseDiv").css({
+    "float": "left"
+}),
+$("#sunRiseName").html("明日日出"),
+$("#sunSetName").html("明日日落"));
+
+
+
 这个天气icon
 ###https://dev.heweather.com/docs/refer/condition
 
