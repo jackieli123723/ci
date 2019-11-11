@@ -2,6 +2,12 @@
 http://i.tq121.com.cn/j/weather2017/c_1d_main_city.js
 
 
+##40 day
+
+window.fc40
+
+
+
 https://www.lao-wang.com/?p=80
 中国天气网中，大连的天气地址是：http://www.weather.com.cn/weather1d/101070201.shtml
 通过Chrome的开发者工具观察页面，页面调用Ajax从如下网址获得天气信息的JS代码：

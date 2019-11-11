@@ -19,6 +19,10 @@ const flatten = utils.flatten
 const jsonToObj = utils.jsonToObj
 const getDegree = utils.getDegree
 const getPerTimeList = utils.getPerTimeList
+const sevenDayWeatherUrl = utils.sevenDayWeatherUrl
+
+
+
 
 process.on('unhandledRejection', (reason, p) => {
     console.log("Unhandled Rejection at: Promise ", p, " reason: ", reason);
@@ -42,7 +46,7 @@ app.use(async (ctx, next) => {
 router.prefix('/v1/api');
 router.get('/weather/:cityCode', ctx => {
     const cityCode = ctx.params.cityCode
-    return axios.get('http://www.weather.com.cn/weathern/'+cityCode+'.shtml')
+    return axios.get(sevenDayWeatherUrl(cityCode))
         .then(function (response) {
           const $ = cheerio.load(response.data,{ decodeEntities:false})
 

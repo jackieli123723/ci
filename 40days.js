@@ -1,3 +1,11 @@
+//http://d1.weather.com.cn/calendarFromMon/2019/101010100_201911.html?_=1573438622791
+
+// Provisional headers are shown
+// Referer: http://www.weather.com.cn/weather40dn/101010100.shtml
+// User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36
+
+
+
 const Koa = require('koa')
 const Router = require('koa-router')
 const app = new Koa()
@@ -18,8 +26,7 @@ const jsonToObj = utils.jsonToObj
 const getDegree = utils.getDegree
 const getPerTimeList = utils.getPerTimeList
 
-
-const toDayWeatherUrl = utils.toDayWeatherUrl
+const fortyDayWeatherUrl = utils.fortyDayWeatherUrl
 const randomUserAgent = utils.randomUserAgent
 
 
@@ -43,10 +50,6 @@ app.use(async (ctx, next) => {
   }
 })
 
-// http://www.weather.com.cn/weather1dn/101010100.shtml
-//实时 http://d1.weather.com.cn/sk_2d/101010100.html?_=1573170108252
-
-
 
 
 router.prefix('/v1/api');
@@ -54,26 +57,28 @@ router.get('/weather/now/:cityCode', ctx => {
       const cityCode = ctx.params.cityCode
       const headers = {
        headers: {
-        referer: `http://www.weather.com.cn/weather1dn/${cityCode}.shtml`, //源域名 Referer: http://www.weather.com.cn/weather1dn/101010100.shtml
+        referer: `http://www.weather.com.cn/weather40dn/${cityCode}.shtml`, //源域名 Referer: http://www.weather.com.cn/weather1dn/101010100.shtml
          'Content-Type': 'text/html',
          'User-Agent':randomUserAgent()
       }
     }
 
-    return axios.get(toDayWeatherUrl(cityCode),headers)
+    console.log(fortyDayWeatherUrl(cityCode))
+
+    return axios.get(fortyDayWeatherUrl(cityCode),headers)
         .then(function (response) {
-            const $ = cheerio.load(response.data,{ decodeEntities:false})
+          const $ = cheerio.load(response.data,{ decodeEntities:false})
 
-          let timeWeather = $('html body').html().replace('var dataSK = ','')
+          let fortyWeather = $('html body').html().replace('var fc40 = ','')
 
-          let obj = JSON.parse(timeWeather)
+          let data = JSON.parse(fortyWeather)
 
-          console.log(obj)
+          console.log(data)
 
           ctx.body = {
                       "msg": "操作成功",
                       "code": 200,
-                      "data": obj
+                      "data": data
                 }
 
     })

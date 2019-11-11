@@ -228,8 +228,8 @@ function getDegree(arr,index){
   function tableData(list){
        let tableHead = ['日期', '最高温度', '最低温度','天气详情','白天天气','夜晚天气','风向级别','白天风向','夜晚风向','今日日落','明日日出']
        let tableData = []
-       for(var i=0;i<list.length;i++){
-            var temp = []
+       for(let  i=0;i<list.length;i++){
+            let  temp = []
             temp.push(list[i].lifeDate,list[i].max_degree+'°C',list[i].min_degree+'°C',list[i].weatherInfo,list[i].day_weather,list[i].night_weather,list[i].windInfo,list[i].day_wind,list[i].night_wind,list[i].sunset,list[i].sunup)
             tableData.push(temp)
        }
@@ -274,6 +274,63 @@ function getDegree(arr,index){
    
   }  
 
+function toDayWeatherUrl(cityCode){
+  let time = new Date().getTime() 
+  return `http://d1.weather.com.cn/sk_2d/${cityCode}.html?_=${time}`
+}
+
+
+function sevenDayWeatherUrl(cityCode){
+  return `http://www.weather.com.cn/weathern/${cityCode}.shtml`
+}
+
+
+
+function fifteenDayWeatherUrl(cityCode){
+  let time = new Date().getTime() 
+  return `http://d1.weather.com.cn/sk_2d/${cityCode}.html?_=${time}`
+}
+
+
+function fortyDayWeatherUrl(cityCode){
+  let time = new Date().getTime() 
+  return `http://d1.weather.com.cn/calendarFromMon/2019/${cityCode}_201911.html?_=${time}`
+}
+
+
+function randomUserAgent(){
+ const userAgentList = [
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36',
+    'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1',
+    'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1',
+    'Mozilla/5.0 (Linux; Android 5.0; SM-G900P Build/LRX21T) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Mobile Safari/537.36',
+    'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Mobile Safari/537.36',
+    'Mozilla/5.0 (Linux; Android 5.1.1; Nexus 6 Build/LYZ28E) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Mobile Safari/537.36',
+    'Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_2 like Mac OS X) AppleWebKit/603.2.4 (KHTML, like Gecko) Mobile/14F89;GameHelper',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/603.2.4 (KHTML, like Gecko) Version/10.1.1 Safari/603.2.4',
+    'Mozilla/5.0 (iPhone; CPU iPhone OS 10_0 like Mac OS X) AppleWebKit/602.1.38 (KHTML, like Gecko) Version/10.0 Mobile/14A300 Safari/602.1',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:46.0) Gecko/20100101 Firefox/46.0',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:46.0) Gecko/20100101 Firefox/46.0',
+    'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)',
+    'Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)',
+    'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)',
+    'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Win64; x64; Trident/6.0)',
+    'Mozilla/5.0 (Windows NT 6.3; Win64, x64; Trident/7.0; rv:11.0) like Gecko',
+    'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36',
+    'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1',
+    'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36',
+    'Mozilla/5.0 (Linux; Android 5.0; SM-G900P Build/LRX21T) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Mobile Safari/537.36',
+    'Mozilla/5.0 (Linux; Android 8.0; Pixel 2 Build/OPD3.170816.012) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Mobile Safari/537.36',
+    'Mozilla/5.0 (Linux; Android 8.0.0; Pixel 2 XL Build/OPD1.170816.004) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Mobile Safari/537.36',
+    'Mozilla/5.0 (iPad; CPU OS 11_0 like Mac OS X) AppleWebKit/604.1.34 (KHTML, like Gecko) Version/11.0 Mobile/15A5341f Safari/604.1',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/13.10586',
+    'Mozilla/5.0 (iPad; CPU OS 10_0 like Mac OS X) AppleWebKit/602.1.38 (KHTML, like Gecko) Version/10.0 Mobile/14A300 Safari/602.1'
+  ]
+  const num = Math.floor(Math.random() * userAgentList.length)
+  return userAgentList[num]
+
+}
 
 
    
@@ -293,5 +350,10 @@ module.exports = {
     getPerTimeList:getPerTimeList,
     tableData:tableData,
     weatherType:weatherType,
-    tabelDataHourly:tabelDataHourly
+    tabelDataHourly:tabelDataHourly,
+    toDayWeatherUrl,
+    sevenDayWeatherUrl,
+    fifteenDayWeatherUrl,
+    fortyDayWeatherUrl,
+    randomUserAgent
 };

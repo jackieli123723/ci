@@ -12,7 +12,8 @@ program
   .option('-c, --city', 'cityCode or cityName')
   .option('-j, --json', 'weather data stdout format is json')
   .option('-t, --table', 'weather data stdout format is table chart')
-  .option('-d, --day', 'weather data is seven data default')
+  .option('-d, --day', 'weather data is seven data default'
+  	)
   .option('-hourly', 'weather data forecast is 24 hours per time is one data')
   .option('-date', 'weather data forecast is time Hourly forecast')
 
@@ -34,7 +35,7 @@ program.parse(process.argv);
 if(!program.args.length) program.help();
 
 const weather = require('../lib/weather.js')
-weather.sevenData()
+weather.init()
 
 
 // if (!process.argv[2]) {
