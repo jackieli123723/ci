@@ -161,6 +161,7 @@ function getLv(indexs,context){
 
 
 
+
 function flatten (arr, curr) {
   if (Array.isArray(curr)) {
     arr.push(...curr)
@@ -332,8 +333,49 @@ function randomUserAgent(){
 
 }
 
+const getLocalTime = () => {
+    let date = new Date()
+    let year = date.getFullYear()
+    let month = date.getMonth() + 1
+    let day = date.getDate()
+    let hour = date.getHours()
+    let minute = date.getMinutes()
+    let second = date.getSeconds()
+    return year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second
+}
 
-   
+
+//空气质量状况的指数 aqiInfo -优  ====  aqi: "34"
+function aqi(t){
+     if (t) {
+          //var levelNum = dataAQI.t1 <= 50 && "0" || dataAQI.t1 <= 100 && 1 || dataAQI.t1 <= 150 && 2 || dataAQI.t1 <= 200 && 3 || dataAQI.t1 <= 300 && 4 || dataAQI.t1 > 300 && 5 || 0
+          var a = 50 >= t && "优" || 100 >= t && "良" || 150 >= t && "轻度污染" || 200 >= t && "中度污染" || 300 >= t && "重度污染" || t > 300 && "严重污染" || ""
+          return a   
+      }
+}
+
+
+//空气指数算法
+function setAirData(observe24h_data) {
+    
+    for (var obsData = observe24h_data.data, i = obsData.length - 1; i >= 0; i--)
+        if (obsData[i] && obsData[i].t1) {
+            dataAQI = obsData[i];
+            break
+        }
+    if (!dataAQI)
+        return 
+ 
+    return {
+      "pm10":dataAQI.t4,
+      "pm25":dataAQI.t3,
+      "co":dataAQI.t5,
+      "no2":dataAQI.t6,
+      "so2":dataAQI.t9
+    }
+}
+
+
 module.exports = {
     trim: trim,
     trimdot: trimdot,
@@ -355,5 +397,7 @@ module.exports = {
     sevenDayWeatherUrl,
     fifteenDayWeatherUrl,
     fortyDayWeatherUrl,
-    randomUserAgent
+    randomUserAgent,
+    aqi,
+    setAirData
 };
