@@ -123,7 +123,7 @@ function wraperAxiosNow(cityCode){
 
                    let realWeatherObj = JSON.parse(timeWeather)
 
-                    resolve({ realWeatherObj })
+                    resolve({ ...realWeatherObj })
                 })
                 .catch(err => reject(err))
   })
@@ -173,7 +173,7 @@ function wraperAxiosHour(cityCode){
 
                    let sunup = jsonToObj(todayData[7].replace('var sunup =',''))[1]
                    let sunset = jsonToObj(todayData[8].replace('var sunset =',''))[1]
-                   let max_degree = jsonToObj(todayData[3].replace('var eventDay =',''))[1]
+                   let max_degree = jsonToObj(todayData[3].replace('var eventDay =',''))[2]
                    let min_degree = jsonToObj(todayData[4].replace('var eventNight =',''))[1]
 
                    console.log(max_degree,min_degree,sunup,sunset)
@@ -202,7 +202,7 @@ function wraperAxiosAir(cityCode){
                     .replace(")","")
 
                     let airInfo = setAirData(jsonToObj(air))
-                    resolve({airInfo})
+                    resolve({...airInfo})
                 })
                 .catch(err => reject(err))
   })
@@ -327,7 +327,7 @@ router.get('/weather/all/:cityCode', (ctx) => {
 
   }).catch(function(err){
         console.log(err);
-         conext.body = {
+         ctx.body = {
               "msg": "服务器内部错误",
               "code": 500
         }

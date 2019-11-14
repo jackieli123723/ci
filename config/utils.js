@@ -1,4 +1,6 @@
 const chalk = require('chalk')
+const colors = require('colors')
+
 function trim(str){
     return str.replace(/(^\s*)|(\s*$)/g, "");
 }
@@ -275,6 +277,39 @@ function getDegree(arr,index){
    
   }  
 
+
+//today hourly
+function tabelDataHourlyToday(data){
+       let tableHead = ['逐小时预报','天气','温度','风向','风向级别']
+       let tableData = []
+       let list = []
+
+       for(var j=0;j<data.length;j++){
+           list.push(data[j])
+       }
+       
+       if(list.length == 0){
+           console.log(chalk.red(' --date Invalid parameter value '));
+           process.exit(0)
+       }
+
+       for(var i=0;i<list.length;i++){
+            var temp = []
+            temp.push(list[i].time+'时',list[i].wather,list[i].degree+'°C',list[i].windDY,list[i].windJB)
+            tableData.push(temp)
+       }
+ 
+      let tableHeadIsHour = list.length > 8 ? '逐小时预报' : '逐3小时预报'
+      tableHead[0] = tableHeadIsHour
+      tableData.unshift(tableHead)
+
+   
+       // console.log(tableData)
+       return tableData
+
+   
+  }  
+
 function toDayWeatherUrl(cityCode){
   let time = new Date().getTime() 
   return `http://d1.weather.com.cn/sk_2d/${cityCode}.html?_=${time}`
@@ -399,5 +434,6 @@ module.exports = {
     fortyDayWeatherUrl,
     randomUserAgent,
     aqi,
-    setAirData
+    setAirData,
+    tabelDataHourlyToday
 };

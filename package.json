@@ -4,7 +4,8 @@
   "description": "node crawer weather data",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "standard 'config/**/*.js'",
+    "test": "npm run lint && jest"
   },
   "bin": {
     "weather": "./bin/weather",
@@ -19,13 +20,16 @@
     "chalk": "^2.4.2",
     "cheerio": "^1.0.0-rc.3",
     "cli-table3": "^0.5.1",
+    "colors": "^1.4.0",
     "commander": "^4.0.0",
     "koa": "^2.11.0",
     "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",
+    "moneda-cli": "^2.3.1",
     "ora": "^4.0.2",
     "request": "^2.88.0",
     "sprite-cutter": "0.0.2",
+    "standard": "^14.3.1",
     "yargs": "^14.2.0"
   }
 }

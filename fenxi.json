@@ -1,5 +1,41 @@
 ### today 
 http://i.tq121.com.cn/j/weather2017/c_1d_main_city.js
+ temp.push(colors.cyan.bold(list[i].lifeDate),colors.red.bold(list[i].max_degree+'°C'),colors.red.bold(list[i].min_degree+'°C'),
+
+    tableDraw(data)
+                     console.log('\r\n')
+                     console.log(chalk.red('时间点天气预报'))
+                     console.log('\r')
+                    tableDrawHourly(data,weatherDate)
+### day1
+
+#weatherALL
+
+
+
+更新时间 16:03
+平均温度  5度
+最高温度 8度
+最低温蒂 -3度 
+空气质量 34/优秀
+可吸入颗粒物(PM10) 82μg/m3
+细颗粒物(PM2.5) 30μg/m3
+一氧化碳(CO) 30mg/m3
+二氧化氮(NO2) 30μg/m3
+二氧化硫(SO2) 30μg/m3
+预警 大风/寒潮  （可选）
+风力 北风3级
+空气湿度 16%
+车辆限行 5和0 
+今日日落 17:01 
+明日日出 06:56
+紫外线 中等
+减肥 一颗星
+血糖  易波动
+穿衣  羽绒服
+洗车   适宜
+空气污染扩散 良
+
 
 
 ##40 day
