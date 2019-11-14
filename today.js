@@ -167,8 +167,16 @@ function wraperAxiosHour(cityCode){
                     todayData.pop()       
 
                      //24小时
-                    // console.log(jsonToObj(todayData[0]),todayData)
-                    let forecastList = getPerTimeList((jsonToObj(todayData[0]))[0]).drgeeData
+                    // console.log(jsonToObj(todayData[0]))
+                    let forecastList1 = getPerTimeList((jsonToObj(todayData[0]))[0]).drgeeData
+                    let forecastList2 = getPerTimeList((jsonToObj(todayData[0]))[1]).drgeeData
+  
+                    let forecastListob = forecastList1.concat(forecastList2)
+                   
+                    let forecastList = forecastListob.slice(0,24)
+
+                    console.log(forecastList.length)
+
                     let lifeAssistant = getLv(0,$)
 
                    let sunup = jsonToObj(todayData[7].replace('var sunup =',''))[1]
