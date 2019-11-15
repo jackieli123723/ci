@@ -60,16 +60,65 @@ var table = new Table({
     });
 
  const row = [
-   colors.rainbow('1111') ,colors.green('1111')
+    colors.red('空气质量') ,colors.green('优秀'),
+    colors.green('空气质量') ,colors.green('优秀'),
+    [colors.yellow('空气质量') ,colors.green('优秀')],
+    [colors.blue('空气质量') ,colors.green('优秀')],
+    [colors.magenta('空气质量') ,colors.green('优秀')],
+    [colors.cyan('空气质量') ,colors.green('优秀')],
+    [colors.white('空气质量') ,colors.green('优秀')],
+    [colors.gray('空气质量') ,colors.green('优秀')],
+    [colors.grey('空气质量') ,colors.green('优秀')],
+    [colors.bgBrightRed('空气质量') ,colors.green('优秀')],
+
  ]
 
 table.push(
-    ['更新时间', '16:03']
-  , ['平均温度', '5度']
+     [colors.red('空气质量') ,colors.green('优秀')], 
+     [colors.green('空气质量') ,colors.green('优秀')],
+    [colors.yellow('空气质量') ,colors.green('优秀')],
+    [colors.blue('空气质量') ,colors.green('优秀')],
+    [colors.magenta('空气质量') ,colors.green('优秀')],
+    [colors.cyan('空气质量') ,colors.green('优秀')],
+    [colors.white('空气质量') ,colors.green('优秀')],
+    [colors.gray('空气质量') ,colors.green('优秀')],
+    [colors.grey('空气质量') ,colors.green('优秀')],
+    [colors.rainbow('空气质量') ,colors.green('优秀')],
+    [colors.zebra('空气质量') ,colors.green('优秀')],
+    [colors.america('空气质量') ,colors.green('优秀')],
+    [colors.trap('空气质量') ,colors.green('优秀')],
+    [colors.random('空气质量') ,colors.green('优秀')],
+
+
 );
 
 console.log(chalk.green(table.toString()));
 
+
+
+// #aqi a.lev1 {
+//     background: #44cf12
+// }
+
+// #aqi a.lev2 {
+//     background: #eec50b
+// }
+
+// #aqi a.lev3 {
+//     background: #f6b42c
+// }
+
+// #aqi a.lev4 {
+//     background: #fa5535
+// }
+
+// #aqi a.lev5 {
+//     background: #e31b40
+// }
+
+// #aqi a.lev6 {
+//     background: #8e0636
+// }
 // 更新时间 16:03
 // 平均温度  5度
 // 最高温度 8度
