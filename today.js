@@ -308,7 +308,7 @@ router.get('/weather/hour/:cityCode', ctx => {
 
 //聚合  3个接口  拿到所有数据 
 
-router.get('/weather/all/:cityCode', (ctx) => {
+router.get('/weather/1d/:cityCode', (ctx) => {
    const cityCode = ctx.params.cityCode
    let now = wraperAxiosNow(cityCode)
    let warn = wraperAxiosWarn(cityCode)

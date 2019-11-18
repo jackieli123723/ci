@@ -244,6 +244,22 @@ function getDegree(arr,index){
     }
 
 
+    function tableSimpleDataFifteen(list){
+       let tableHead = ['日期', '最高温度', '最低温度','天气详情','白天天气','夜晚天气','风向级别','白天风向','夜晚风向']
+       let tableData = []
+       for(let  i=0;i<list.length;i++){
+            let  temp = []
+            temp.push(list[i].weatherDate,list[i].max_degree+'°C',list[i].min_degree+'°C',list[i].weatherInfo,list[i].day_weather,list[i].night_weather,list[i].windInfo,list[i].day_wind,list[i].night_wind)
+            tableData.push(temp)
+       }
+      tableData.unshift(tableHead)
+    // console.log(tableData)
+     
+     return tableData
+   
+    }
+
+
   function tabelDataHourly(data,date){
        let tableHead = ['逐小时预报','天气','温度','风向','风向级别']
        let tableData = []
@@ -324,7 +340,7 @@ function sevenDayWeatherUrl(cityCode){
 
 function fifteenDayWeatherUrl(cityCode){
   let time = new Date().getTime() 
-  return `http://d1.weather.com.cn/sk_2d/${cityCode}.html?_=${time}`
+  return `http://www.weather.com.cn/weather15dn/${cityCode}.shtml`
 }
 
 
@@ -411,6 +427,42 @@ function setAirData(observe24h_data) {
 }
 
 
+//未来15天日期算法 传入未来的天数 
+
+function getFutureWeatherDate(n) {
+        var n = n;
+        var d = new Date();
+        var year = d.getFullYear();
+        var mon = d.getMonth() + 1;
+        var day = d.getDate();
+        if(day > n) {
+            if(mon > 1) {
+                mon = mon + 1;
+            } else {
+                year = year + 1;
+                mon = 12;
+            }
+        }
+        d.setDate(d.getDate() + n);
+        year = d.getFullYear();
+        mon = d.getMonth() + 1;
+        day = d.getDate();
+        s = year + "-" + (mon < 10 ? ('0' + mon) : mon) + "-" + (day < 10 ? ('0' + day) : day);
+        return s;
+    }
+
+function getWeekday(year, month, day){
+      return new Date(year, month-1, day).getDay();
+  }
+
+  function weekDayInfo(str){
+     let res = str.split("-")
+     let index = getWeekday(res[0],res[1],res[2])
+     let weekDayInfo =  ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
+     return weekDayInfo[index]
+  }
+   
+
 module.exports = {
     trim: trim,
     trimdot: trimdot,
@@ -435,5 +487,10 @@ module.exports = {
     randomUserAgent,
     aqi,
     setAirData,
-    tabelDataHourlyToday
+    tabelDataHourlyToday,
+    getLocalTime,
+    getFutureWeatherDate,
+    getWeekday,
+    weekDayInfo,
+    tableSimpleDataFifteen
 };

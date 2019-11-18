@@ -35,6 +35,37 @@ http://i.tq121.com.cn/j/weather2017/c_1d_main_city.js
 穿衣  羽绒服
 洗车   适宜
 空气污染扩散 良
+function airLevelColor(){
+//   #aqi a.lev1 {
+//     background: #44cf12
+// }
+
+// #aqi a.lev2 {
+//     background: #eec50b
+// }
+
+// #aqi a.lev3 {
+//     background: #f6b42c
+// }
+
+// #aqi a.lev4 {
+//     background: #fa5535
+// }
+
+// #aqi a.lev5 {
+//     background: #e31b40
+// }
+
+// #aqi a.lev6 {
+//     background: #8e0636
+// }
+}
+
+//预警信息  ['天气预警','大雾预警 寒潮预警']
+
+
+## 15天后面的没有日落信息 
+
 
 
 

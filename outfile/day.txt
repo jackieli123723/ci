@@ -1,0 +1,281 @@
+{
+   "msg": "操作成功",
+   "code": 200,
+   "data": {
+      "nameen": "haikou",
+      "cityname": "海口",
+      "city": "101310101",
+      "temp": "26",
+      "tempf": "78",
+      "WD": "东北风",
+      "wde": "NE",
+      "WS": "2级",
+      "wse": "<12km/h",
+      "SD": "71%",
+      "time": "10:35",
+      "weather": "多云",
+      "weathere": "Cloudy",
+      "weathercode": "d01",
+      "qy": "1009",
+      "njd": "18.12km",
+      "sd": "71%",
+      "rain": "0.0",
+      "rain24h": "0",
+      "aqi": "33",
+      "limitnumber": "",
+      "aqi_pm25": "33",
+      "date": "11月18日(星期一)",
+      "cityDZ": {
+         "weatherinfo": {
+            "city": "101310101",
+            "cityname": "海口",
+            "temp": "27℃",
+            "tempn": "21℃",
+            "weather": "小雨转多云",
+            "wd": "微风转东北风",
+            "ws": "<3级转3-4级",
+            "weathercode": "d7",
+            "weathercoden": "n1",
+            "fctime": "201911180800"
+         }
+      },
+      "alarmDZ": {
+         "w": []
+      },
+      "forecastList": [
+         {
+            "itemOne": "",
+            "wather": "晴",
+            "windDY": "无持续风向",
+            "windJB": "<3级",
+            "degree": "23",
+            "time": "08"
+         },
+         {
+            "itemOne": "item-one",
+            "wather": "晴",
+            "windDY": "东风",
+            "windJB": "<3级",
+            "degree": "24",
+            "time": "09"
+         },
+         {
+            "itemOne": "",
+            "wather": "晴",
+            "windDY": "东北风",
+            "windJB": "<3级",
+            "degree": "25",
+            "time": "10"
+         },
+         {
+            "itemOne": "item-one",
+            "wather": "多云",
+            "windDY": "无持续风向",
+            "windJB": "<3级",
+            "degree": "26",
+            "time": "11"
+         },
+         {
+            "itemOne": "",
+            "wather": "多云",
+            "windDY": "东北风",
+            "windJB": "<3级",
+            "degree": "26",
+            "time": "12"
+         },
+         {
+            "itemOne": "item-one",
+            "wather": "多云",
+            "windDY": "北风",
+            "windJB": "<3级",
+            "degree": "26",
+            "time": "13"
+         },
+         {
+            "itemOne": "",
+            "wather": "多云",
+            "windDY": "无持续风向",
+            "windJB": "<3级",
+            "degree": "27",
+            "time": "14"
+         },
+         {
+            "itemOne": "item-one",
+            "wather": "小雨",
+            "windDY": "北风",
+            "windJB": "<3级",
+            "degree": "26",
+            "time": "15"
+         },
+         {
+            "itemOne": "",
+            "wather": "小雨",
+            "windDY": "东北风",
+            "windJB": "<3级",
+            "degree": "26",
+            "time": "16"
+         },
+         {
+            "itemOne": "item-one",
+            "wather": "晴",
+            "windDY": "无持续风向",
+            "windJB": "<3级",
+            "degree": "25",
+            "time": "17"
+         },
+         {
+            "itemOne": "",
+            "wather": "晴",
+            "windDY": "北风",
+            "windJB": "<3级",
+            "degree": "25",
+            "time": "18"
+         },
+         {
+            "itemOne": "item-one",
+            "wather": "小雨",
+            "windDY": "东北风",
+            "windJB": "<3级",
+            "degree": "24",
+            "time": "19"
+         },
+         {
+            "itemOne": "",
+            "wather": "小雨",
+            "windDY": "东北风",
+            "windJB": "<3级",
+            "degree": "23",
+            "time": "20"
+         },
+         {
+            "itemOne": "item-one",
+            "wather": "多云",
+            "windDY": "东北风",
+            "windJB": "<3级",
+            "degree": "23",
+            "time": "21"
+         },
+         {
+            "itemOne": "",
+            "wather": "多云",
+            "windDY": "东北风",
+            "windJB": "<3级",
+            "degree": "23",
+            "time": "22"
+         },
+         {
+            "itemOne": "item-one",
+            "wather": "多云",
+            "windDY": "东北风",
+            "windJB": "3-4级",
+            "degree": "23",
+            "time": "23"
+         },
+         {
+            "itemOne": "",
+            "wather": "多云",
+            "windDY": "东北风",
+            "windJB": "3-4级",
+            "degree": "23",
+            "time": "00"
+         },
+         {
+            "itemOne": "item-one",
+            "wather": "多云",
+            "windDY": "东北风",
+            "windJB": "3-4级",
+            "degree": "22",
+            "time": "01"
+         },
+         {
+            "itemOne": "",
+            "wather": "多云",
+            "windDY": "东北风",
+            "windJB": "3-4级",
+            "degree": "22",
+            "time": "02"
+         },
+         {
+            "itemOne": "item-one",
+            "wather": "多云",
+            "windDY": "东北风",
+            "windJB": "3-4级",
+            "degree": "21",
+            "time": "03"
+         },
+         {
+            "itemOne": "",
+            "wather": "晴",
+            "windDY": "东北风",
+            "windJB": "3-4级",
+            "degree": "21",
+            "time": "04"
+         },
+         {
+            "itemOne": "item-one",
+            "wather": "晴",
+            "windDY": "东北风",
+            "windJB": "3-4级",
+            "degree": "21",
+            "time": "05"
+         },
+         {
+            "itemOne": "",
+            "wather": "晴",
+            "windDY": "东北风",
+            "windJB": "3-4级",
+            "degree": "21",
+            "time": "06"
+         },
+         {
+            "itemOne": "item-one",
+            "wather": "晴",
+            "windDY": "东北风",
+            "windJB": "3-4级",
+            "degree": "21",
+            "time": "07"
+         }
+      ],
+      "lifeAssistant": {
+         "uv": {
+            "level": "最弱",
+            "stars": 1,
+            "info": "辐射弱，涂擦SPF8-12防晒护肤品。"
+         },
+         "gm": {
+            "level": "一颗星",
+            "stars": 1,
+            "info": "雨天室内运动下。"
+         },
+         "bl": {
+            "level": "易波动",
+            "stars": 3,
+            "info": "血糖易波动，注意监测。"
+         },
+         "cy": {
+            "level": "衬衫",
+            "stars": 5,
+            "info": "建议穿长袖衬衫单裤等服装。"
+         },
+         "xc": {
+            "level": "不宜",
+            "stars": 4,
+            "info": "有雨，雨水和泥水会弄脏爱车。"
+         },
+         "ks": {
+            "level": "良",
+            "stars": 2,
+            "info": "气象条件有利于空气污染物扩散。"
+         }
+      },
+      "max_degree": "23",
+      "min_degree": "21",
+      "sunup": "06:48",
+      "sunset": "17:58",
+      "pm10": "33",
+      "pm25": "12",
+      "co": "0.4",
+      "no2": "10",
+      "so2": "4"
+   }
+}
