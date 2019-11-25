@@ -348,9 +348,9 @@ function fifteenDayWeatherUrl(cityCode) {
 }
 
 
-function fortyDayWeatherUrl(cityCode) {
+function fortyDayWeatherUrl(cityCode,year,month) {
   let time = new Date().getTime()
-  return `http://d1.weather.com.cn/calendarFromMon/2019/${cityCode}_201911.html?_=${time}`
+  return `http://d1.weather.com.cn/calendarFromMon/${year}/${cityCode}_${yaer}${month}.html?_=${time}`
 }
 
 
@@ -455,6 +455,10 @@ function getFutureWeatherDate(n) {
   return s;
 }
 
+function getMonthDays(year, month) {
+  return new Date(year, month, 0).getDate();
+}
+
 function getWeekday(year, month, day) {
   return new Date(year, month - 1, day).getDay();
 }
@@ -465,6 +469,44 @@ function weekDayInfo(str) {
   let weekDayInfo = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
   return weekDayInfo[index]
 }
+
+
+function regionFortyDateArray(date) {
+
+  let year = date.getFullYear() 
+  let mon = date.getMonth() + 1;
+  let month = (mon < 10 ? ('0' + mon) : mon)
+  
+  let futureeDay ='' //未来40天的截止日期
+  
+  let 
+  
+  return [{
+      "year": 2019,
+      "month": 11,
+      "day": 5
+    },
+    {
+      "year": 2019,
+      "month": 12,
+      "day": 30
+    },
+    {
+      "year": 2022,
+      "month": 01,
+      "day": 5
+    }
+  ]
+
+
+}
+
+
+function regionFortyWeatherData(){
+ //table data 
+ 
+}
+
 
 
 module.exports = {

@@ -68,12 +68,36 @@ function airLevelColor(){
 
 
 
-
 ##40 day
 
 window.fc40
 
+算法  这样来统计数据的 concat 数据 整合40天数据 
+[
+	{
+		"year":2019,
+		"month":11,
+		"day":5
+	},
+	{
+		"year":2019,
+		"month":12,
+		"day":30
+	},
+	{
+		"year":2022,
+		"month":01,
+		"day":5
+	}
+]
 
+
+
+需要计算 40天包含的天数  重新组装数组 
+
+http://d1.weather.com.cn/calendarFromMon/2019/101010100_201911.html?_=1574666689172
+http://d1.weather.com.cn/calendarFromMon/2019/101010100_201912.html?_=1574666689172
+http://d1.weather.com.cn/calendarFromMon/2020/101010100_202001.html?_=1574666669427
 
 https://www.lao-wang.com/?p=80
 中国天气网中，大连的天气地址是：http://www.weather.com.cn/weather1d/101070201.shtml
