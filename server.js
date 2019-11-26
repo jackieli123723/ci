@@ -28,6 +28,9 @@ const getFutureWeatherDate = utils.getFutureWeatherDate
 const weekDayInfo = utils.weekDayInfo
 
 
+const fortyDayWeatherUrl = utils.fortyDayWeatherUrl
+const uniqueDate = utils.uniqueDate
+const axioFortyDayWeatherUrl = utils.axioFortyDayWeatherUrl
 
 
 
@@ -236,6 +239,7 @@ function wraperAxiosSeven(cityCode) {
             data.push({
               date: trim($this.find(".date").text()),
               dateInfo: trim($this.find(".date-info").text()),
+              weatherDate: getFutureWeatherDate(index - 1) + ' ' + weekDayInfo(getFutureWeatherDate(index - 1)),
               day_weather: weatherContentDom.find(".item-icon").eq(0).attr("title"),
               night_weather: weatherContentDom.find(".item-icon").eq(1).attr("title"),
               weatherInfo: trim(weatherContentDom.find(".weather-info").text()),
@@ -305,6 +309,7 @@ function wraperAxiosSevenSimple(cityCode) {
             data.push({
               date: trim($this.find(".date").text()),
               dateInfo: trim($this.find(".date-info").text()),
+              weatherDate: getFutureWeatherDate(index - 1) + ' ' + weekDayInfo(getFutureWeatherDate(index - 1)),
               day_weather: weatherContentDom.find(".item-icon").eq(0).attr("title"),
               night_weather: weatherContentDom.find(".item-icon").eq(1).attr("title"),
               weatherInfo: trim(weatherContentDom.find(".weather-info").text()),
@@ -386,6 +391,33 @@ function wraperAxiosFifteen(cityCode) {
   })
 }
 
+
+
+function wraperAxiosForty(cityCode,year,month) {
+  return new Promise((resolve, reject) => {
+    const headers = {
+      headers: {
+        referer: `http://www.weather.com.cn/weather40dn/${cityCode}.shtml`,
+        'Content-Type': 'text/html',
+        'User-Agent': randomUserAgent()
+      }
+    }
+    axios.get(fortyDayWeatherUrl(cityCode,year,month), headers)
+      .then(function (response) {
+        const $ = cheerio.load(response.data, {
+          decodeEntities: false
+        })
+        let fc40 = $('html body').html()
+          .replace("var fc40 = ", "")
+
+        let listFortyData = jsonToObj(fc40)
+        resolve({
+          listFortyData
+        })
+      })
+      .catch(err => reject(err))
+  })
+}
 
 
 //api 版本
@@ -471,6 +503,68 @@ router.get('/weather/15d/:cityCode', ctx => {
         "data": {
           "list": concatData,
           "uptime": results[0].uptime
+        }
+      }
+    })
+    .catch(function (error) {
+      console.log(error);
+      ctx.body = error || {
+        "msg": "服务器内部错误",
+        "code": 500
+      }
+    });
+
+});
+
+
+
+router.get('/weather/40d/:cityCode', ctx => {
+  const cityCode = ctx.params.cityCode
+
+  let fortyWeatherData = []
+  // for (var i = 0; i < 40; i++) {
+  //   fortyWeatherData.push(getFutureWeatherDate(i) + ' ' + weekDayInfo(getFutureWeatherDate(i)))
+  // }
+  for (let i = 0; i < 40; i++) {
+    fortyWeatherData.push(getFutureWeatherDate(i))
+  }
+  let promiseList = axioFortyDayWeatherUrl(cityCode,uniqueDate(fortyWeatherData)).resassemble //40 天分 最多三个数组 最少两个数组 
+  let data = []
+  for(let i=0;i<promiseList.length;i++){
+    data.push(wraperAxiosForty(cityCode,promiseList[i]['year'],promiseList[i]['month']))
+  }
+
+  let nowTimeDate = getFutureWeatherDate(0).split('-').join('')
+  console.log('nowTimeDate',nowTimeDate)
+
+  // function getUserClickWeatherR(t, a) {
+  //   var e = t;
+  //   e = t > a ? a : t,
+  //   clickTdFunction(e),
+  //   // $("#table tbody tr td").eq(e).addClass("today");
+  // }
+
+
+ 
+  return Promise.all(data).then((results) => {
+      console.log(results[0].listFortyData.length) //35 11月份
+      console.log(results[1].listFortyData.length) //42 12月份
+      console.log(results[2].listFortyData.length) //35 01月份
+
+      // console.log(JSON.stringify(results,null,3))
+      console.log(results.length)
+
+      let list = []
+      for(let i=0;i<results.length;i++){
+        list = list.concat(...results[i].listFortyData)
+      }
+      console.log('list',list.length)
+      ctx.body = {
+        "msg": "操作成功",
+        "code": 200,
+        "data": {
+          // "list": results[0].listFortyData
+          "list":list
         }
       }
     })

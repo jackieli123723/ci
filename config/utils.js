@@ -237,7 +237,7 @@ function tableData(list) {
   let tableData = []
   for (let i = 0; i < list.length; i++) {
     let temp = []
-    temp.push(list[i].lifeDate, list[i].max_degree + '°C', list[i].min_degree + '°C', list[i].weatherInfo, list[i].day_weather, list[i].night_weather, list[i].windInfo, list[i].day_wind, list[i].night_wind, list[i].sunset, list[i].sunup)
+    temp.push(list[i].weatherDate, list[i].max_degree + '°C', list[i].min_degree + '°C', list[i].weatherInfo, list[i].day_weather, list[i].night_weather, list[i].windInfo, list[i].day_wind, list[i].night_wind, list[i].sunset, list[i].sunup)
     tableData.push(temp)
   }
   tableData.unshift(tableHead)
@@ -350,7 +350,7 @@ function fifteenDayWeatherUrl(cityCode) {
 
 function fortyDayWeatherUrl(cityCode,year,month) {
   let time = new Date().getTime()
-  return `http://d1.weather.com.cn/calendarFromMon/${year}/${cityCode}_${yaer}${month}.html?_=${time}`
+  return `http://d1.weather.com.cn/calendarFromMon/${year}/${cityCode}_${year}${month}.html?_=${time}`
 }
 
 
@@ -471,34 +471,45 @@ function weekDayInfo(str) {
 }
 
 
-function regionFortyDateArray(date) {
-
-  let year = date.getFullYear() 
-  let mon = date.getMonth() + 1;
-  let month = (mon < 10 ? ('0' + mon) : mon)
-  
-  let futureeDay ='' //未来40天的截止日期
-  
-  let 
-  
-  return [{
-      "year": 2019,
-      "month": 11,
-      "day": 5
-    },
-    {
-      "year": 2019,
-      "month": 12,
-      "day": 30
-    },
-    {
-      "year": 2022,
-      "month": 01,
-      "day": 5
+//40天日期每月统计
+function uniqueDate(arr) {
+  let uniqueDateArray = arr.reduce(function (acc, name) {
+    let arr = String(name).split('-');
+    let temp = arr[0] + '-' + arr[1]
+    if (temp in acc) {
+      acc[temp]++;
+    } else {
+      acc[temp] = 1;
     }
-  ]
+    return acc;
+  }, {});
+  return uniqueDateArray
+}
+//爬取链接 
+function axioFortyDayWeatherUrl(cityCode,obj) {
+  let res = []
+  let resassemble = []
+  let axiosUrl = []
+  for (let [key, value] of Object.entries(obj)) {
+    let temp = new Array(3);
+        temp[0] = key.split('-')[0];
+        temp[1] = key.split('-')[1];
+        temp[2] = value;
+        res.push(temp)
 
-
+  }
+  for(let i=0,len=res.length;i<len;i++){
+    resassemble.push({
+      "year": res[i][0],
+      "month": res[i][1],
+      "day": res[i][2], 
+    })
+    axiosUrl.push(fortyDayWeatherUrl(cityCode,res[i][0],res[i][1]))
+  }
+  return {
+    resassemble:resassemble,
+    axiosUrl:axiosUrl
+  } 
 }
 
 
@@ -538,5 +549,7 @@ module.exports = {
   getFutureWeatherDate,
   getWeekday,
   weekDayInfo,
-  tableSimpleDataFifteen
+  tableSimpleDataFifteen,
+  uniqueDate,
+  axioFortyDayWeatherUrl
 };
