@@ -17,7 +17,6 @@ program
   .option('--date', 'weather data forecast is time Hourly forecast')
   .option('--douwnload', 'weather data douwnload to local file path')
 
-
 program.on('--help', function() {
   console.log('');
   console.log('Examples:');
@@ -31,9 +30,7 @@ program.on('--help', function() {
 
 
 program.parse(process.argv);
-
 if(!program.args.length) program.help();
-
 const weather = require('../lib/weather.js')
 weather.init()
 
@@ -46,10 +43,6 @@ weather.init()
 //   console.log(chalk.cyan('  $ ') + 'wci -city 成都 -day 7 -chart');
 //   return;
 // }
-
-
-
-
 
 
 // ## process.argv 参数

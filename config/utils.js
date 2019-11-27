@@ -1,6 +1,8 @@
 const chalk = require('chalk')
 const colors = require('colors')
-
+const axios = require('axios')
+const cheerio = require('cheerio')
+const Table = require('cli-table3')
 function trim(str) {
   return str.replace(/(^\s*)|(\s*$)/g, "");
 }
@@ -29,6 +31,7 @@ function temperatureScriptData(str) {
 // //白天晴  n00晚上晴  icon不一样 
 function weatherType(wather) {
   var weatherArr = {
+    "":'-',
     0: "晴",
     1: "多云",
     2: "阴",
@@ -512,12 +515,696 @@ function axioFortyDayWeatherUrl(cityCode,obj) {
   } 
 }
 
-
-function regionFortyWeatherData(){
- //table data 
- 
+function filterWeatherDataMonth(arr){
+  return arr.filter((item,index,arr) => {
+        return item.cla == 'd15 pre' || item.cla == 'd15' || item.cla == 'd40' || item.cla == 'd40 pre' || item.cla == 'd40 next'
+  })
 }
 
+function filterArrayMonth(arr,index,day){
+  return arr.slice(index,index + day)
+}
+
+
+function tableDataForty(list) {
+  let tableHead = ['日期', '最高温度', '最低温度', '天气详情', '白天天气', '夜晚天气', '风向详情','降水概率']
+  let tableData = []
+  for (let i = 0; i < list.length; i++) {
+    let temp = []
+    temp.push(list[i].weatherDate, list[i].max + '°C', list[i].min + '°C', list[i].w1 == '' ? '-' :list[i].w1, weatherType(list[i].c1), weatherType(list[i].c2), list[i].wd1 == '' ? '-' :list[i].wd1,list[i].hgl)
+    tableData.push(temp)
+  }
+  tableData.unshift(tableHead)
+  // console.log(tableData)
+
+  return tableData
+
+}
+
+
+
+
+
+const stdoutMessage = function (data) {
+  return process.stdout.write(chalk.green(JSON.stringify(data, null, 2)))
+}
+
+const stdoutTable = function (string) {
+  process.stdout.write(string)
+}
+
+
+function tableDraw(data) {
+  let table = new Table({
+    chars: {
+      'top': '═',
+      'top-mid': '╤',
+      'top-left': '╔',
+      'top-right': '╗',
+      'bottom': '═',
+      'bottom-mid': '╧',
+      'bottom-left': '╚',
+      'bottom-right': '╝',
+      'left': '║',
+      'left-mid': '╟',
+      'mid': '─',
+      'mid-mid': '┼',
+      'right': '║',
+      'right-mid': '╢',
+      'middle': '│'
+    }
+  });
+  for (var i = 0; i < tableData(data).length; i++) {
+    table.push(tableData(data)[i])
+  }
+  return stdoutTable(chalk.green(table.toString()));
+
+}
+
+function tableDrawHourly(data, date) {
+  let table = new Table({
+    chars: {
+      'top': '═',
+      'top-mid': '╤',
+      'top-left': '╔',
+      'top-right': '╗',
+      'bottom': '═',
+      'bottom-mid': '╧',
+      'bottom-left': '╚',
+      'bottom-right': '╝',
+      'left': '║',
+      'left-mid': '╟',
+      'mid': '─',
+      'mid-mid': '┼',
+      'right': '║',
+      'right-mid': '╢',
+      'middle': '│'
+    }
+  });
+
+  for (var i = 0; i < tabelDataHourly(data, date).length; i++) {
+    table.push(tabelDataHourly(data, date)[i])
+  }
+
+  return stdoutTable(chalk.green(table.toString()));
+
+}
+
+function tableDrawFifteen(data) {
+  let table = new Table({
+    chars: {
+      'top': '═',
+      'top-mid': '╤',
+      'top-left': '╔',
+      'top-right': '╗',
+      'bottom': '═',
+      'bottom-mid': '╧',
+      'bottom-left': '╚',
+      'bottom-right': '╝',
+      'left': '║',
+      'left-mid': '╟',
+      'mid': '─',
+      'mid-mid': '┼',
+      'right': '║',
+      'right-mid': '╢',
+      'middle': '│'
+    }
+  });
+
+  for (var i = 0; i < tableSimpleDataFifteen(data).length; i++) {
+    table.push(tableSimpleDataFifteen(data)[i])
+  }
+
+  return stdoutTable(chalk.green(table.toString()));
+}
+
+
+function tableDrawForty(data) {
+  let table = new Table({
+    chars: {
+      'top': '═',
+      'top-mid': '╤',
+      'top-left': '╔',
+      'top-right': '╗',
+      'bottom': '═',
+      'bottom-mid': '╧',
+      'bottom-left': '╚',
+      'bottom-right': '╝',
+      'left': '║',
+      'left-mid': '╟',
+      'mid': '─',
+      'mid-mid': '┼',
+      'right': '║',
+      'right-mid': '╢',
+      'middle': '│'
+    }
+  });
+
+  for (var i = 0; i < tableDataForty(data).length; i++) {
+    table.push(tableDataForty(data)[i])
+  }
+
+  return stdoutTable(chalk.green(table.toString()));
+}
+
+
+
+//预警
+
+function todayWeatherWarning(cityCode) {
+  let time = new Date().getTime()
+  return `http://d1.weather.com.cn/dingzhi/${cityCode}.html?_=${time}`
+}
+
+//air
+
+function todayWeatherAir(cityCode) {
+  let time = new Date().getTime()
+  return `http://d1.weather.com.cn/aqi_all/${cityCode}.html?_=${time}`
+}
+
+
+function wraperAxiosNow(cityCode) {
+  return new Promise((resolve, reject) => {
+    const headers = {
+      headers: {
+        referer: `http://www.weather.com.cn/weather1dn/${cityCode}.shtml`,
+        'Content-Type': 'text/html',
+        'User-Agent': randomUserAgent()
+      }
+    }
+
+    axios.get(toDayWeatherUrl(cityCode), headers)
+      .then(function (response) {
+        const $ = cheerio.load(response.data, {
+          decodeEntities: false
+        })
+        let timeWeather = $('html body').html().replace('var dataSK = ', '')
+        let realWeatherObj = JSON.parse(timeWeather)
+        resolve({
+          ...realWeatherObj
+        })
+      })
+      .catch(err => reject(err))
+  })
+}
+
+//天气预警
+function wraperAxiosWarn(cityCode) {
+  return new Promise((resolve, reject) => {
+    const headers = {
+      headers: {
+        referer: `http://www.weather.com.cn/weather1dn/${cityCode}.shtml`,
+        'Content-Type': 'text/html',
+        'User-Agent': randomUserAgent()
+      }
+    }
+    axios.get(todayWeatherWarning(cityCode), headers)
+      .then(function (response) {
+        const $ = cheerio.load(response.data, {
+          decodeEntities: false
+        })
+        let warnWeather = $('html body').html()
+          .split(";")
+
+        let cityDZ = jsonToObj(warnWeather[0].replace(`var cityDZ${cityCode} =`, ''))
+        let alarmDZ = jsonToObj(warnWeather[1].replace(`var alarmDZ${cityCode} =`, ''))
+        resolve({
+          cityDZ,
+          alarmDZ
+        })
+      })
+      .catch(err => reject(err))
+  })
+}
+
+
+function wraperAxiosHour(cityCode) {
+  return new Promise((resolve, reject) => {
+    const url = `http://www.weather.com.cn/weather1dn/${cityCode}.shtml`
+    axios.get(url)
+      .then(function (response) {
+        const $ = cheerio.load(response.data, {
+          decodeEntities: false
+        })
+
+        let todayData = $('.todayRight script').html()
+          .replace("var hour3data=", "")
+          .replace(/\n/g, "")
+          .split(";")
+
+        todayData.pop()
+
+        //24小时
+        // console.log(jsonToObj(todayData[0]))
+        let forecastList1 = getPerTimeList((jsonToObj(todayData[0]))[0]).drgeeData
+        let forecastList2 = getPerTimeList((jsonToObj(todayData[0]))[1]).drgeeData
+
+        let forecastListob = forecastList1.concat(forecastList2)
+
+        let forecastList = forecastListob.slice(0, 24)
+
+
+
+        let lifeAssistant = getLv(0, $)
+
+        let sunup = jsonToObj(todayData[7].replace('var sunup =', ''))[1]
+        let sunset = jsonToObj(todayData[8].replace('var sunset =', ''))[1]
+        let max_degree = jsonToObj(todayData[3].replace('var eventDay =', ''))[2]
+        let min_degree = jsonToObj(todayData[4].replace('var eventNight =', ''))[1]
+
+        // console.log(max_degree,min_degree,sunup,sunset)
+
+        resolve({
+          forecastList,
+          lifeAssistant,
+          max_degree,
+          min_degree,
+          sunup,
+          sunset
+        })
+      })
+      .catch(err => reject(err))
+  })
+}
+
+
+function wraperAxiosAir(cityCode) {
+  return new Promise((resolve, reject) => {
+    const headers = {
+      headers: {
+        referer: `http://www.weather.com.cn/air/?city=${cityCode}`,
+        'Content-Type': 'text/html',
+        'User-Agent': randomUserAgent()
+      }
+    }
+    axios.get(todayWeatherAir(cityCode), headers)
+      .then(function (response) {
+        const $ = cheerio.load(response.data, {
+          decodeEntities: false
+        })
+        let air = $('html body').html()
+          .replace("setAirData(", '')
+          .replace(")", "")
+
+        let airInfo = setAirData(jsonToObj(air))
+        resolve({
+          ...airInfo
+        })
+      })
+      .catch(err => reject(err))
+  })
+}
+
+
+
+
+function wraperAxiosSeven(cityCode) {
+  return new Promise((resolve, reject) => {
+    axios.get(sevenDayWeatherUrl(cityCode))
+      .then(function (response) {
+        const $ = cheerio.load(response.data, {
+          decodeEntities: false
+        })
+        let hasBody = $('body').html()
+        if (hasBody == '') {
+          let errorInfo = {
+            "msg": "城市代码错误",
+            "code": 500
+          }
+          reject(errorInfo)
+          return
+        }
+
+        //温度
+        let temperatures = temperatureScriptData($(".blueFor-container script").html())
+
+        //24小时 
+        let hour3data = $(".details-container script").html()
+          .replace("var hour3data=", "")
+          .replace(/\n/g, "")
+          .split(";")
+
+        hour3data.pop()
+
+        let data = [];
+        //聚合7天数据 
+        $('.date-container li').each(function (item, indx, arr) {
+          let $this = $(this);
+          let index = $this.index();
+          let weatherContentDom = $(".blue-container .blue-item").eq(index)
+          let weatherLifeDom = $(".weather_shzs .lv").eq(index)
+          if (index > 0) {
+            data.push({
+              date: trim($this.find(".date").text()),
+              dateInfo: trim($this.find(".date-info").text()),
+              weatherDate: getFutureWeatherDate(index - 1) + ' ' + weekDayInfo(getFutureWeatherDate(index - 1)),
+              day_weather: weatherContentDom.find(".item-icon").eq(0).attr("title"),
+              night_weather: weatherContentDom.find(".item-icon").eq(1).attr("title"),
+              weatherInfo: trim(weatherContentDom.find(".weather-info").text()),
+              day_wind: weatherContentDom.find(".wind-container").find(".wind-icon").eq(0).attr("title"),
+              night_wind: weatherContentDom.find(".wind-container").find(".wind-icon").eq(1).attr("title"),
+              windInfo: trim(weatherContentDom.find(".wind-info").text()),
+              forecastList: getPerTimeList((jsonToObj(hour3data[0]))[index - 1]).drgeeData, //算法转换
+              sunup: getDegree(jsonToObj(temperatures[4]), index - 1),
+              sunset: getDegree(jsonToObj(temperatures[5]), index - 1),
+              max_degree: getDegree(jsonToObj(temperatures[0]), index),
+              min_degree: getDegree(jsonToObj(temperatures[1]), index),
+              lifeDate: getLife(index - 1, $),
+              lifeAssistant: getLv(index - 1, $)
+            });
+          }
+        })
+
+        let list = data
+        let uptime = trimdot(hour3data[2].replace("var uptime=", "")) + '| 数据来源 中央气象台'
+
+        resolve({
+          list,
+          uptime
+        })
+      })
+      .catch(err => reject(err))
+  })
+}
+
+
+function wraperAxiosSevenSimple(cityCode) {
+  return new Promise((resolve, reject) => {
+    axios.get(sevenDayWeatherUrl(cityCode))
+      .then(function (response) {
+        const $ = cheerio.load(response.data, {
+          decodeEntities: false
+        })
+        let hasBody = $('body').html()
+        if (hasBody == '') {
+          let errorInfo = {
+            "msg": "城市代码错误",
+            "code": 500
+          }
+          reject(errorInfo)
+          return
+        }
+
+        //温度
+        let temperatures = temperatureScriptData($(".blueFor-container script").html())
+
+        //24小时 
+        let hour3data = $(".details-container script").html()
+          .replace("var hour3data=", "")
+          .replace(/\n/g, "")
+          .split(";")
+
+        hour3data.pop()
+
+        let data = [];
+        //聚合7天数据 
+        $('.date-container li').each(function (item, indx, arr) {
+          let $this = $(this);
+          let index = $this.index();
+          let weatherContentDom = $(".blue-container .blue-item").eq(index)
+          let weatherLifeDom = $(".weather_shzs .lv").eq(index)
+          if (index > 0) {
+            data.push({
+              date: trim($this.find(".date").text()),
+              dateInfo: trim($this.find(".date-info").text()),
+              weatherDate: getFutureWeatherDate(index - 1) + ' ' + weekDayInfo(getFutureWeatherDate(index - 1)),
+              day_weather: weatherContentDom.find(".item-icon").eq(0).attr("title"),
+              night_weather: weatherContentDom.find(".item-icon").eq(1).attr("title"),
+              weatherInfo: trim(weatherContentDom.find(".weather-info").text()),
+              day_wind: weatherContentDom.find(".wind-container").find(".wind-icon").eq(0).attr("title"),
+              night_wind: weatherContentDom.find(".wind-container").find(".wind-icon").eq(1).attr("title"),
+              windInfo: trim(weatherContentDom.find(".wind-info").text()),
+              max_degree: getDegree(jsonToObj(temperatures[0]), index),
+              min_degree: getDegree(jsonToObj(temperatures[1]), index),
+            });
+          }
+        })
+
+        let list = data
+        let uptime = trimdot(hour3data[2].replace("var uptime=", "")) + '| 数据来源 中央气象台'
+
+
+        resolve({
+          list,
+          uptime
+        })
+      })
+      .catch(err => reject(err))
+  })
+}
+
+
+
+
+function wraperAxiosFifteen(cityCode) {
+  return new Promise((resolve, reject) => {
+    axios.get(fifteenDayWeatherUrl(cityCode))
+      .then(function (response) {
+        const $ = cheerio.load(response.data, {
+          decodeEntities: false
+        })
+        let hasBody = $('body').html()
+
+        if (hasBody == '') {
+          let errorInfo = {
+            "msg": "城市代码错误",
+            "code": 500
+          }
+          reject(errorInfo)
+          return
+        }
+
+        //温度
+        let temperatures = temperatureScriptData($(".blueFor-container script").html())
+
+        let data = [];
+        //后面8天数据 
+        $('.date-container li').each(function (item, indx, arr) {
+          let $this = $(this);
+          let index = $this.index();
+          let weatherContentDom = $(".blue-container .blue-item").eq(index)
+          let weatherLifeDom = $(".weather_shzs .lv").eq(index)
+
+          data.push({
+            date: trim($this.find(".date").text()),
+            dateInfo: trim($this.find(".date-info").text()),
+            weatherDate: getFutureWeatherDate(index) + ' ' + weekDayInfo(getFutureWeatherDate(index)),
+            day_weather: weatherContentDom.find(".item-icon").eq(0).attr("title"),
+            night_weather: weatherContentDom.find(".item-icon").eq(1).attr("title"),
+            weatherInfo: trim(weatherContentDom.find(".weather-info").text()),
+            day_wind: weatherContentDom.find(".wind-container").find(".wind-icon").eq(0).attr("title"),
+            night_wind: weatherContentDom.find(".wind-container").find(".wind-icon").eq(1).attr("title"),
+            windInfo: trim(weatherContentDom.find(".wind-info").text()),
+            max_degree: getDegree(jsonToObj(temperatures[2]), index),
+            min_degree: getDegree(jsonToObj(temperatures[3]), index),
+          });
+
+        })
+
+        let listFifteen = data
+        resolve({
+          listFifteen
+        })
+      })
+      .catch(err => reject(err))
+  })
+}
+
+
+
+//cli 数据是乱丢的 对不上   http://localhost:4003/v1/api/weather/40d/101010100
+function wraperAxiosForty(cityCode, year, month) {
+  return new Promise((resolve, reject) => {
+    const headers = {
+      headers: {
+        'referer': `http://www.weather.com.cn/weather40dn/${cityCode}.shtml`,
+        'User-Agent': randomUserAgent()
+      }
+    }
+    axios.get(fortyDayWeatherUrl(cityCode, year, month), headers)
+      .then(function (response) {
+        const $ = cheerio.load(response.data, {
+          decodeEntities: false
+        })
+        let fc40 = $('html body').html()
+          .replace("var fc40 = ", "")
+
+        let listFortyData = jsonToObj(fc40)
+
+        resolve({
+          listFortyData
+        })
+      })
+      .catch(err => reject(err))
+  })
+}
+
+
+//这个来测试数据真实性 代理本地的接口 
+function wraperAxiosFortyProxy(cityCode) {
+  return new Promise((resolve, reject) => {
+    const headers = {
+      headers: {
+        'referer': `http://www.weather.com.cn/weather40dn/${cityCode}.shtml`,
+        'Content-Type': 'application/json; charset=utf-8',
+        'User-Agent': randomUserAgent()
+      }
+    }
+    axios.get(`http://localhost:4003/v1/api/weather/40d/${cityCode}`, headers)
+      .then(function (response) {
+        let listFortyData = response.data.data.list
+        resolve({
+          listFortyData
+        })
+      })
+      .catch(err => reject(err))
+  })
+}
+
+function wrapperKey(obj, key, keyInfo, type) {
+
+  let reslut
+  if (type == '°C') {
+    reslut = [keyInfo, obj[key] + type]
+  } else if (type == 'aqi') {
+    reslut = [keyInfo, obj[key] + '/' + aqi(obj[key])]
+  } else if (type == 'mg' || type == 'μg') {
+    reslut = [keyInfo, obj[key] + type + '/m3']
+  } else if (type == 'mm') {
+    reslut = [keyInfo, obj[key] +  type ]
+  } else if (type == 'hpa') {
+    reslut = [keyInfo, obj[key] + type]
+  } else {
+    reslut = [keyInfo, (obj[key] !== '' ? obj[key] : '不限号')]
+  }
+  return reslut
+}
+
+
+function wrapperKeyLife(obj, key, keyInfo) {
+  let reslut = [keyInfo, obj[key]['level']]
+  return reslut
+}
+
+
+function wrapperKeyWind(obj, keyname, keynum, keyInfo) {
+  let result = [keyInfo, obj[keyname] + ' ' + obj[keynum]]
+  return result
+}
+
+
+
+function wrapperKeyAlarm(obj, key, keyInfo) {
+  let result
+  let info = []
+  if (obj[key] && obj[key]['w'] && obj[key]['w'].length > 0) {
+    for (var i = 0; i < obj[key]['w'].length; i++) {
+      info.push(obj[key]['w'][i]['w5'] + '预警')
+    }
+  } else {
+    info.push('暂无预警信息')
+  }
+
+  result = [keyInfo, info.join(' ')]
+
+  // console.log(obj[key]['w'].length,info)
+
+  return result
+}
+
+function wrapperTodayWeather(obj) {
+  let result = []
+  result.push(
+    wrapperKey(obj, 'time', '天气实况更新时间'),
+    wrapperKey(obj, 'temp', '平均温度', '°C'),
+    wrapperKey(obj, 'max_degree', '最高温度', '°C'),
+    wrapperKey(obj, 'min_degree', '最低温蒂', '°C'),
+    wrapperKeyWind(obj, 'WD', 'WS', '风力'),
+    wrapperKey(obj, 'sunset', '今日日落'),
+    wrapperKey(obj, 'sunup', '明日日出'),
+    wrapperKey(obj, 'limitnumber', '车辆限行'),
+    wrapperKeyAlarm(obj, 'alarmDZ', '发布天气预警'),
+    wrapperKey(obj, 'aqi', '空气质量', 'aqi'),
+    wrapperKey(obj, 'sd', '空气相对湿度'),
+    wrapperKey(obj, 'njd', '能见度'),
+    wrapperKey(obj, 'qy', '气压','hpa'),//hpa
+    wrapperKey(obj, 'rain', '降雨量','mm'), //mm
+    wrapperKey(obj, 'pm10', '可吸入颗粒物(PM10)', 'μg'),
+    wrapperKey(obj, 'pm25', '细颗粒物(PM2.5)', 'μg'),
+    wrapperKey(obj, 'co', '一氧化碳(CO)', 'mg'),
+    wrapperKey(obj, 'no2', '二氧化氮(NO2) ', 'μg'),
+    wrapperKey(obj, 'so2', '二氧化硫(SO2)', 'μg'),
+    wrapperKeyLife(obj.lifeAssistant, 'uv', '紫外线'),
+    wrapperKeyLife(obj.lifeAssistant, 'gm', '减肥'),
+    wrapperKeyLife(obj.lifeAssistant, 'bl', '血糖'),
+    wrapperKeyLife(obj.lifeAssistant, 'cy', '穿衣指南'),
+    wrapperKeyLife(obj.lifeAssistant, 'xc', '洗车'),
+    wrapperKeyLife(obj.lifeAssistant, 'ks', '空气污染扩散'),
+
+  )
+  return result
+}
+
+function tableDrawToday(obj) {
+  // let table = new Table({
+  //      head: ['属性', '数值']
+  //  });
+
+  let table = new Table({
+    chars: {
+      'top': '═',
+      'top-mid': '╤',
+      'top-left': '╔',
+      'top-right': '╗',
+      'bottom': '═',
+      'bottom-mid': '╧',
+      'bottom-left': '╚',
+      'bottom-right': '╝',
+      'left': '║',
+      'left-mid': '╟',
+      'mid': '─',
+      'mid-mid': '┼',
+      'right': '║',
+      'right-mid': '╢',
+      'middle': '│'
+    }
+  });
+  table.push(['属性', '数值'])
+  for (var i = 0; i < wrapperTodayWeather(obj).length; i++) {
+    table.push(wrapperTodayWeather(obj)[i])
+  }
+  console.log(chalk.green(table.toString()));
+}
+
+function tableDrawTodayHourly(data) {
+  let table = new Table({
+    chars: {
+      'top': '═',
+      'top-mid': '╤',
+      'top-left': '╔',
+      'top-right': '╗',
+      'bottom': '═',
+      'bottom-mid': '╧',
+      'bottom-left': '╚',
+      'bottom-right': '╝',
+      'left': '║',
+      'left-mid': '╟',
+      'mid': '─',
+      'mid-mid': '┼',
+      'right': '║',
+      'right-mid': '╢',
+      'middle': '│'
+    }
+  });
+
+  for (var i = 0; i < tabelDataHourlyToday(data).length; i++) {
+    table.push(tabelDataHourlyToday(data)[i])
+  }
+
+  return stdoutTable(chalk.green(table.toString()));
+
+}
 
 
 module.exports = {
@@ -551,5 +1238,31 @@ module.exports = {
   weekDayInfo,
   tableSimpleDataFifteen,
   uniqueDate,
-  axioFortyDayWeatherUrl
+  axioFortyDayWeatherUrl,
+  filterWeatherDataMonth,
+  tableDataForty,
+  stdoutMessage,
+  stdoutTable,
+  tableDraw,
+  tableDrawHourly,
+  tableDrawFifteen,
+  tableDrawForty,
+  todayWeatherWarning,
+  todayWeatherAir,
+  wraperAxiosNow,
+  wraperAxiosWarn,
+  wraperAxiosHour,
+  wraperAxiosAir,
+  wraperAxiosSeven,
+  wraperAxiosSevenSimple,
+  wraperAxiosFifteen,
+  wraperAxiosForty,
+  wraperAxiosFortyProxy,
+  wrapperKey,
+  wrapperKeyLife,
+  wrapperKeyWind,
+  wrapperKeyAlarm,
+  wrapperTodayWeather,
+  tableDrawToday,
+  tableDrawTodayHourly
 };
