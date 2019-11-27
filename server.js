@@ -42,6 +42,21 @@ const wraperAxiosForty = utils.wraperAxiosForty
 const wraperAxiosFortyProxy = utils.wraperAxiosFortyProxy
 
 
+global.errorHandlerCodeStatus = {
+  OK : 200,
+  BadRequest : 400,
+  Unauthorized : 401,
+  Forbidden : 403,
+  NotFound : 404,
+  RequestTimeout : 408,
+  Gone : 410,
+  UnprocessableEntity : 422,
+  InternalServerError : 500,
+  NotImplemented : 501,
+  BadGateway : 502,
+  ServiceUnavailable : 503
+};
+
 process.on('unhandledRejection', (reason, p) => {
   console.log("Unhandled Rejection at: Promise ", p, " reason: ", reason);
 });
@@ -50,18 +65,56 @@ process.on("uncaughtException", function (e) {
   console.log(e);
 });
 
+//跨域
 app.use(Cors());
-// 错误捕获
-app.use(async (ctx, next) => {
-  try {
-    await next()
-  } catch (err) {
-    ctx.status = err.status || 500
-    ctx.body = err.message
-    ctx.app.emit('error', err, ctx)
-  }
-})
 
+//需求 把不存在的路由 也返回json
+const handler = async (ctx, next) => {
+  try {
+    await next();
+  } catch (err) {
+    ctx.response.status = err.statusCode || err.status || 500;
+    ctx.response.body = {
+      message: err.message
+    };
+    ctx.app.emit('error', err, ctx) //try catch 捕获了 使用ctx.app.emit()手动释放error事件，才能让监听函数监听到
+  }
+};
+
+// 错误捕获 4xx or 5xx status codes 
+const errorHandler = async (ctx, next) => {
+  await next();
+  //way1 
+  const originStatus = ctx.status
+  const errorCodeList = Object.values(global.errorHandlerCodeStatus)
+  let code = errorCodeList.filter((item) => {
+    return item === parseInt(originStatus)
+  })
+  //这里要排除正常请求 200
+  if(originStatus!==200 && code){
+    ctx.throw(code[0])
+  }
+  //way2 分别判断if 太多了 不优雅 
+  // if(parseInt(ctx.status) === 404 ){
+  //   ctx.throw(404)
+  // }
+  // if(parseInt(ctx.status) === 500 ){
+  //   ctx.throw(500)
+  // }
+}
+
+const main = ctx => {
+  ctx.throw(502);
+};
+
+app.use(handler);
+// app.use(main) //模拟抛出4xx or 5xx status codes 
+app.use(errorHandler);
+
+//错误日志输出
+app.on('error', (err, ctx) => {
+  console.error('server error', err.message);
+});
 
 //api 版本
 router.prefix('/v1/api');
