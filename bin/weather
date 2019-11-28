@@ -35,6 +35,7 @@ const weather = require('../lib/weather.js')
 weather.init()
 
 
+
 // if (!process.argv[2]) {
 //   console.log(chalk.green('Weather ~ ' + require('../package').version));
 //   console.log(chalk.red('Grabbing Weather Forecast Data'));

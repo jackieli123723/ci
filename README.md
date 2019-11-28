@@ -66,6 +66,14 @@ module.exports = function(CLI) {
       return cb ? cb() : that.exitCli(cst.SUCCESS_EXIT);
     }
 
+    ###
+
+    $ tianqi -c 成都 -t -d 15 ||  weather -c 成都 -t -d 15
+
+
+
+
+
  ###   要解决的问题 cheerio 抓取svg    
 
 
