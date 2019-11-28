@@ -3,6 +3,7 @@ const colors = require("colors");
 const axios = require("axios");
 const cheerio = require("cheerio");
 const Table = require("cli-table3");
+const clc = require("cli-color");
 
 function trim(str) {
   return str.replace(/(^\s*)|(\s*$)/g, "");
@@ -664,7 +665,8 @@ const stdoutMessage = function (data) {
 };
 
 const stdoutTable = function (string) {
-  process.stdout.write(string);
+  return process.stdout.write(string);
+ 
 };
 
 function tableDraw(data) {
