@@ -699,6 +699,17 @@ function wraperAxiosNow(cityCode) {
         const $ = cheerio.load(response.data, {
           decodeEntities: false
         })
+
+        let hasBody = $('body').html()
+        if (hasBody == '') {
+          let errorInfo = {
+            "msg": "城市代码错误",
+            "code": 500
+          }
+          reject(errorInfo)
+          return
+        }
+        
         let timeWeather = $('html body').html().replace('var dataSK = ', '')
         let realWeatherObj = JSON.parse(timeWeather)
         resolve({
@@ -747,6 +758,16 @@ function wraperAxiosHour(cityCode) {
         const $ = cheerio.load(response.data, {
           decodeEntities: false
         })
+
+        let hasBody = $('body').html()
+        if (hasBody == '') {
+          let errorInfo = {
+            "msg": "城市代码错误",
+            "code": 500
+          }
+          reject(errorInfo)
+          return
+        }
 
         let todayData = $('.todayRight script').html()
           .replace("var hour3data=", "")
@@ -1027,10 +1048,24 @@ function wraperAxiosForty(cityCode, year, month) {
         const $ = cheerio.load(response.data, {
           decodeEntities: false
         })
+        console.log(''+response.data.indexOf('fc40') > -1)
+
+        let hasBody =  (''+response.data.indexOf('fc40') > -1) //true标识 为城市数据
+
+        if (!hasBody) {
+          let errorInfo = {
+            "msg": "城市代码错误",
+            "code": 500
+          }
+          reject(errorInfo)
+          return
+        }
+
+
         let fc40 = $('html body').html()
           .replace("var fc40 = ", "")
 
-        let listFortyData = jsonToObj(fc40)
+        let listFortyData = fc40 && jsonToObj(fc40)
 
         resolve({
           listFortyData
