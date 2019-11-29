@@ -12,7 +12,9 @@
     "tianqi": "./bin/weather",
     "wci": "./bin/weather"
   },
-  "keywords": ["node cli commander weather"],
+  "keywords": [
+    "node cli commander weather"
+  ],
   "author": "jackeili",
   "license": "ISC",
   "dependencies": {

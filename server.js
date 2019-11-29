@@ -121,7 +121,7 @@ router.prefix("/v1/api");
 
 //聚合  4个接口  拿到所有数据
 router.get("/weather/1d/:cityCode", ctx => {
-  const cityCode = ctx.params.cityCode;
+  const cityCode = parseInt(ctx.params.cityCode,10);
   let now = wraperAxiosNow(cityCode);
   let warn = wraperAxiosWarn(cityCode);
   let hour = wraperAxiosHour(cityCode);
@@ -149,7 +149,7 @@ router.get("/weather/1d/:cityCode", ctx => {
 });
 
 router.get("/weather/7d/:cityCode", ctx => {
-  const cityCode = ctx.params.cityCode;
+  const cityCode = parseInt(ctx.params.cityCode,10);
   return wraperAxiosSeven(cityCode)
     .then(results => {
       ctx.body = {
@@ -170,7 +170,7 @@ router.get("/weather/7d/:cityCode", ctx => {
 });
 
 router.get("/weather/15d/:cityCode", ctx => {
-  const cityCode = ctx.params.cityCode;
+  const cityCode = parseInt(ctx.params.cityCode,10);
   const sevenData = wraperAxiosSevenSimple(cityCode);
   const fifteenData = wraperAxiosFifteen(cityCode);
   return Promise.all([sevenData, fifteenData])
@@ -207,7 +207,7 @@ router.get("/weather/15d/:cityCode", ctx => {
 });
 
 router.get("/weather/40d/:cityCode", ctx => {
-  const cityCode = ctx.params.cityCode;
+  const cityCode = parseInt(ctx.params.cityCode,10);
   let fortyWeatherDate = [];
   let fortyWeatherData = [];
   for (let i = 0; i < 40; i++) {

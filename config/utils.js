@@ -203,10 +203,11 @@ function flatten(arr, curr) {
   return arr;
 }
 
+
 function jsonToObj(t) {
-  var e = "";
-  return JSON.parse && (e = JSON.parse(t));
+  return JSON.parse(t);
 }
+
 
 function getDegree(arr, index) {
   return arr[index];
