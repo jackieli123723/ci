@@ -1,9 +1,7 @@
-const chalk = require("chalk");
 const colors = require("colors");
 const axios = require("axios");
 const cheerio = require("cheerio");
 const Table = require("cli-table3");
-const clc = require("cli-color");
 
 function trim(str) {
   return str.replace(/(^\s*)|(\s*$)/g, "");
@@ -18,15 +16,15 @@ function temperatureScriptData(str) {
   let temperature =
     str &&
     str
-    .replace("var eventDay =", "")
-    .replace("var eventNight =", "")
-    .replace("var fifDay =", "")
-    .replace("var fifNight =", "")
-    .replace("var sunup =", "")
-    .replace("var sunset =", "")
-    .replace("var blue =", "")
-    .replace(/\n/g, "")
-    .split(";");
+      .replace("var eventDay =", "")
+      .replace("var eventNight =", "")
+      .replace("var fifDay =", "")
+      .replace("var fifNight =", "")
+      .replace("var sunup =", "")
+      .replace("var sunset =", "")
+      .replace("var blue =", "")
+      .replace(/\n/g, "")
+      .split(";");
 
   temperature.pop();
   result.push(temperature);
@@ -168,10 +166,10 @@ function getLv(indexs, context) {
       dlArr.push({
         level: getClothes(
           shzs
-          .find("dl")
-          .eq(i)
-          .find("em")
-          .text()
+            .find("dl")
+            .eq(i)
+            .find("em")
+            .text()
         ),
         stars: shzs
           .find("dl")
@@ -259,18 +257,20 @@ function sourceData(t) {
         "10-11级",
         "11-12级"
       ],
-      n = 0; n < t.length; n++
+      n = 0;
+    n < t.length;
+    n++
   ) {
     var r = t[n],
       s = {},
       l = r["jf"].slice(8, 10);
     (s["time"] = l),
-    (s["degree"] = r.jb),
-    (s["wather"] = l > 5 && 20 > l ? "d" + r.ja : "n" + r.ja),
-    (s["windDY"] = e[r.jd]),
-    (s["windJB"] = i[r.jc]),
-    (s["itemOne"] = n % 2 ? "item-one" : ""),
-    a.push(s);
+      (s["degree"] = r.jb),
+      (s["wather"] = l > 5 && 20 > l ? "d" + r.ja : "n" + r.ja),
+      (s["windDY"] = e[r.jd]),
+      (s["windJB"] = i[r.jc]),
+      (s["itemOne"] = n % 2 ? "item-one" : ""),
+      a.push(s);
   }
   // console.log(a)
   return a;
@@ -288,33 +288,33 @@ function getPerTimeList(s) {
 
 function tableData(list) {
   let tableHead = [
-    "日期",
-    "最高温度",
-    "最低温度",
-    "天气详情",
-    "白天天气",
-    "夜晚天气",
-    "风向级别",
-    "白天风向",
-    "夜晚风向",
-    "今日日落",
-    "明日日出"
+    colors.cyan("日期"),
+    colors.cyan("最高温度"),
+    colors.cyan("最低温度"),
+    colors.cyan("天气详情"),
+    colors.cyan("白天天气"),
+    colors.cyan("夜晚天气"),
+    colors.cyan("风向级别"),
+    colors.cyan("白天风向"),
+    colors.cyan("夜晚风向"),
+    colors.cyan("今日日落"),
+    colors.cyan("明日日出")
   ];
   let tableData = [];
   for (let i = 0; i < list.length; i++) {
     let temp = [];
     temp.push(
-      list[i].weatherDate,
-      list[i].max_degree + "°C",
-      list[i].min_degree + "°C",
-      list[i].weatherInfo,
-      list[i].day_weather,
-      list[i].night_weather,
-      list[i].windInfo,
-      list[i].day_wind,
-      list[i].night_wind,
-      list[i].sunset,
-      list[i].sunup
+      colors.green(list[i].weatherDate),
+      colors.green(list[i].max_degree + "°C"),
+      colors.green(list[i].min_degree + "°C"),
+      colors.green(list[i].weatherInfo),
+      colors.green(list[i].day_weather),
+      colors.green(list[i].night_weather),
+      colors.green(list[i].windInfo),
+      colors.green(list[i].day_wind),
+      colors.green(list[i].night_wind),
+      colors.green(list[i].sunset),
+      colors.green(list[i].sunup)
     );
     tableData.push(temp);
   }
@@ -326,29 +326,29 @@ function tableData(list) {
 
 function tableSimpleDataFifteen(list) {
   let tableHead = [
-    "日期",
-    "最高温度",
-    "最低温度",
-    "天气详情",
-    "白天天气",
-    "夜晚天气",
-    "风向级别",
-    "白天风向",
-    "夜晚风向"
+    colors.cyan("日期"),
+    colors.cyan("最高温度"),
+    colors.cyan("最低温度"),
+    colors.cyan("天气详情"),
+    colors.cyan("白天天气"),
+    colors.cyan("夜晚天气"),
+    colors.cyan("风向级别"),
+    colors.cyan("白天风向"),
+    colors.cyan("夜晚风向")
   ];
   let tableData = [];
   for (let i = 0; i < list.length; i++) {
     let temp = [];
     temp.push(
-      list[i].weatherDate,
-      list[i].max_degree + "°C",
-      list[i].min_degree + "°C",
-      list[i].weatherInfo,
-      list[i].day_weather,
-      list[i].night_weather,
-      list[i].windInfo,
-      list[i].day_wind,
-      list[i].night_wind
+      colors.green(list[i].weatherDate),
+      colors.green(list[i].max_degree + "°C"),
+      colors.green(list[i].min_degree + "°C"),
+      colors.green(list[i].weatherInfo),
+      colors.green(list[i].day_weather),
+      colors.green(list[i].night_weather),
+      colors.green(list[i].windInfo),
+      colors.green(list[i].day_wind),
+      colors.green(list[i].night_wind)
     );
     tableData.push(temp);
   }
@@ -359,7 +359,21 @@ function tableSimpleDataFifteen(list) {
 }
 
 function tabelDataHourly(data, date) {
-  let tableHead = ["逐小时预报", "天气", "温度", "风向", "风向级别"];
+  let tableHead = [
+    colors.yellow("逐小时预报"),
+    colors.yellow("天气"),
+    colors.yellow("温度"),
+    colors.yellow("风向"),
+    colors.yellow("风向级别")
+  ];
+  let tableHeadPerThreeHour = [
+    colors.yellow("逐3小时预报"),
+    colors.yellow("天气"),
+    colors.yellow("温度"),
+    colors.yellow("风向"),
+    colors.yellow("风向级别")
+  ];
+
   let tableData = [];
   let list = [];
 
@@ -370,25 +384,24 @@ function tabelDataHourly(data, date) {
   }
 
   if (list.length == 0) {
-    console.log(chalk.red(" --date Invalid parameter value "));
+    console.log(colors.red(" --date Invalid parameter value "));
     process.exit(0);
   }
 
   for (var i = 0; i < list[0].length; i++) {
     var temp = [];
     temp.push(
-      list[0][i].time + "时",
-      list[0][i].wather,
-      list[0][i].degree + "°C",
-      list[0][i].windDY,
-      list[0][i].windJB
+      colors.green(list[0][i].time + "时"),
+      colors.green(list[0][i].wather),
+      colors.green(list[0][i].degree + "°C"),
+      colors.green(list[0][i].windDY),
+      colors.green(list[0][i].windJB)
     );
     tableData.push(temp);
   }
 
-  let tableHeadIsHour = list[0].length > 8 ? "逐小时预报" : "逐3小时预报";
-  tableHead[0] = tableHeadIsHour;
-  tableData.unshift(tableHead);
+  let tableHeadIsHour = list[0].length > 8 ? tableHead : tableHeadPerThreeHour;
+  tableData.unshift(tableHeadIsHour);
 
   // console.log(tableData)
   return tableData;
@@ -396,7 +409,20 @@ function tabelDataHourly(data, date) {
 
 //today hourly
 function tabelDataHourlyToday(data) {
-  let tableHead = ["逐小时预报", "天气", "温度", "风向", "风向级别"];
+  let tableHead = [
+    colors.yellow("逐小时预报"),
+    colors.yellow("天气"),
+    colors.yellow("温度"),
+    colors.yellow("风向"),
+    colors.yellow("风向级别")
+  ];
+  let tableHeadPerThreeHour = [
+    colors.yellow("逐小时预报"),
+    colors.yellow("天气"),
+    colors.yellow("温度"),
+    colors.yellow("风向"),
+    colors.yellow("风向级别")
+  ];
   let tableData = [];
   let list = [];
 
@@ -405,25 +431,24 @@ function tabelDataHourlyToday(data) {
   }
 
   if (list.length == 0) {
-    console.log(chalk.red(" --date Invalid parameter value "));
+    console.log(colors.red(" --date Invalid parameter value "));
     process.exit(0);
   }
 
   for (var i = 0; i < list.length; i++) {
     var temp = [];
     temp.push(
-      list[i].time + "时",
-      list[i].wather,
-      list[i].degree + "°C",
-      list[i].windDY,
-      list[i].windJB
+      colors.green(list[i].time + "时"),
+      colors.green(list[i].wather),
+      colors.green(list[i].degree + "°C"),
+      colors.green(list[i].windDY),
+      colors.green(list[i].windJB)
     );
     tableData.push(temp);
   }
 
-  let tableHeadIsHour = list.length > 8 ? "逐小时预报" : "逐3小时预报";
-  tableHead[0] = tableHeadIsHour;
-  tableData.unshift(tableHead);
+  let tableHeadIsHour = list.length > 8 ? tableHead : tableHeadPerThreeHour;
+  tableData.unshift(tableHeadIsHour);
 
   // console.log(tableData)
   return tableData;
@@ -574,7 +599,7 @@ function weekDayInfo(str) {
 
 //40天日期每月统计
 function uniqueDate(arr) {
-  let uniqueDateArray = arr.reduce(function (acc, name) {
+  let uniqueDateArray = arr.reduce(function(acc, name) {
     let arr = String(name).split("-");
     let temp = arr[0] + "-" + arr[1];
     if (temp in acc) {
@@ -630,27 +655,27 @@ function filterArrayMonth(arr, index, day) {
 
 function tableDataForty(list) {
   let tableHead = [
-    "日期",
-    "最高温度",
-    "最低温度",
-    "天气详情",
-    "白天天气",
-    "夜晚天气",
-    "风向详情",
-    "降水概率"
+    colors.cyan("日期"),
+    colors.cyan("最高温度"),
+    colors.cyan("最低温度"),
+    colors.cyan("天气详情"),
+    colors.cyan("白天天气"),
+    colors.cyan("夜晚天气"),
+    colors.cyan("风向详情"),
+    colors.cyan("降水概率")
   ];
   let tableData = [];
   for (let i = 0; i < list.length; i++) {
     let temp = [];
     temp.push(
-      list[i].weatherDate,
-      list[i].max + "°C",
-      list[i].min + "°C",
-      list[i].w1 == "" ? "-" : list[i].w1,
-      weatherType(list[i].c1),
-      weatherType(list[i].c2),
-      list[i].wd1 == "" ? "-" : list[i].wd1,
-      list[i].hgl
+      colors.green(list[i].weatherDate),
+      colors.green(list[i].max + "°C"),
+      colors.green(list[i].min + "°C"),
+      colors.green(list[i].w1 == "" ? "-" : list[i].w1),
+      colors.green(weatherType(list[i].c1)),
+      colors.green(weatherType(list[i].c2)),
+      colors.green(list[i].wd1 == "" ? "-" : list[i].wd1),
+      colors.green(list[i].hgl)
     );
     tableData.push(temp);
   }
@@ -660,13 +685,12 @@ function tableDataForty(list) {
   return tableData;
 }
 
-const stdoutMessage = function (data) {
-  return process.stdout.write(chalk.green(JSON.stringify(data, null, 2)));
+const stdoutMessage = function(data) {
+  return process.stdout.write(colors.green(JSON.stringify(data, null, 2)));
 };
 
-const stdoutTable = function (string) {
+const stdoutTable = function(string) {
   return process.stdout.write(string);
- 
 };
 
 function tableDraw(data) {
@@ -692,7 +716,7 @@ function tableDraw(data) {
   for (var i = 0; i < tableData(data).length; i++) {
     table.push(tableData(data)[i]);
   }
-  return stdoutTable(chalk.green(table.toString()));
+  return stdoutTable(colors.green(table.toString()));
 }
 
 function tableDrawHourly(data, date) {
@@ -720,7 +744,7 @@ function tableDrawHourly(data, date) {
     table.push(tabelDataHourly(data, date)[i]);
   }
 
-  return stdoutTable(chalk.green(table.toString()));
+  return stdoutTable(colors.green(table.toString()));
 }
 
 function tableDrawFifteen(data) {
@@ -748,7 +772,7 @@ function tableDrawFifteen(data) {
     table.push(tableSimpleDataFifteen(data)[i]);
   }
 
-  return stdoutTable(chalk.green(table.toString()));
+  return stdoutTable(colors.green(table.toString()));
 }
 
 function tableDrawForty(data) {
@@ -776,7 +800,7 @@ function tableDrawForty(data) {
     table.push(tableDataForty(data)[i]);
   }
 
-  return stdoutTable(chalk.green(table.toString()));
+  return stdoutTable(colors.green(table.toString()));
 }
 
 //预警
@@ -805,7 +829,7 @@ function wraperAxiosNow(cityCode) {
 
     axios
       .get(toDayWeatherUrl(cityCode), headers)
-      .then(function (response) {
+      .then(function(response) {
         const $ = cheerio.load(response.data, {
           decodeEntities: false
         });
@@ -844,7 +868,7 @@ function wraperAxiosWarn(cityCode) {
     };
     axios
       .get(todayWeatherWarning(cityCode), headers)
-      .then(function (response) {
+      .then(function(response) {
         const $ = cheerio.load(response.data, {
           decodeEntities: false
         });
@@ -872,7 +896,7 @@ function wraperAxiosHour(cityCode) {
     const url = `http://www.weather.com.cn/weather1dn/${cityCode}.shtml`;
     axios
       .get(url)
-      .then(function (response) {
+      .then(function(response) {
         const $ = cheerio.load(response.data, {
           decodeEntities: false
         });
@@ -943,7 +967,7 @@ function wraperAxiosAir(cityCode) {
     };
     axios
       .get(todayWeatherAir(cityCode), headers)
-      .then(function (response) {
+      .then(function(response) {
         const $ = cheerio.load(response.data, {
           decodeEntities: false
         });
@@ -965,7 +989,7 @@ function wraperAxiosSeven(cityCode) {
   return new Promise((resolve, reject) => {
     axios
       .get(sevenDayWeatherUrl(cityCode))
-      .then(function (response) {
+      .then(function(response) {
         const $ = cheerio.load(response.data, {
           decodeEntities: false
         });
@@ -995,7 +1019,7 @@ function wraperAxiosSeven(cityCode) {
 
         let data = [];
         //聚合7天数据
-        $(".date-container li").each(function (item, indx, arr) {
+        $(".date-container li").each(function(item, indx, arr) {
           let $this = $(this);
           let index = $this.index();
           let weatherContentDom = $(".blue-container .blue-item").eq(index);
@@ -1004,7 +1028,8 @@ function wraperAxiosSeven(cityCode) {
             data.push({
               date: trim($this.find(".date").text()),
               dateInfo: trim($this.find(".date-info").text()),
-              weatherDate: getFutureWeatherDate(index - 1) +
+              weatherDate:
+                getFutureWeatherDate(index - 1) +
                 " " +
                 weekDayInfo(getFutureWeatherDate(index - 1)),
               day_weather: weatherContentDom
@@ -1057,7 +1082,7 @@ function wraperAxiosSevenSimple(cityCode) {
   return new Promise((resolve, reject) => {
     axios
       .get(sevenDayWeatherUrl(cityCode))
-      .then(function (response) {
+      .then(function(response) {
         const $ = cheerio.load(response.data, {
           decodeEntities: false
         });
@@ -1087,7 +1112,7 @@ function wraperAxiosSevenSimple(cityCode) {
 
         let data = [];
         //聚合7天数据
-        $(".date-container li").each(function (item, indx, arr) {
+        $(".date-container li").each(function(item, indx, arr) {
           let $this = $(this);
           let index = $this.index();
           let weatherContentDom = $(".blue-container .blue-item").eq(index);
@@ -1096,7 +1121,8 @@ function wraperAxiosSevenSimple(cityCode) {
             data.push({
               date: trim($this.find(".date").text()),
               dateInfo: trim($this.find(".date-info").text()),
-              weatherDate: getFutureWeatherDate(index - 1) +
+              weatherDate:
+                getFutureWeatherDate(index - 1) +
                 " " +
                 weekDayInfo(getFutureWeatherDate(index - 1)),
               day_weather: weatherContentDom
@@ -1143,7 +1169,7 @@ function wraperAxiosFifteen(cityCode) {
   return new Promise((resolve, reject) => {
     axios
       .get(fifteenDayWeatherUrl(cityCode))
-      .then(function (response) {
+      .then(function(response) {
         const $ = cheerio.load(response.data, {
           decodeEntities: false
         });
@@ -1165,7 +1191,7 @@ function wraperAxiosFifteen(cityCode) {
 
         let data = [];
         //后面8天数据
-        $(".date-container li").each(function (item, indx, arr) {
+        $(".date-container li").each(function(item, indx, arr) {
           let $this = $(this);
           let index = $this.index();
           let weatherContentDom = $(".blue-container .blue-item").eq(index);
@@ -1174,7 +1200,8 @@ function wraperAxiosFifteen(cityCode) {
           data.push({
             date: trim($this.find(".date").text()),
             dateInfo: trim($this.find(".date-info").text()),
-            weatherDate: getFutureWeatherDate(index) +
+            weatherDate:
+              getFutureWeatherDate(index) +
               " " +
               weekDayInfo(getFutureWeatherDate(index)),
             day_weather: weatherContentDom
@@ -1222,11 +1249,11 @@ function wraperAxiosForty(cityCode, year, month) {
     };
     axios
       .get(fortyDayWeatherUrl(cityCode, year, month), headers)
-      .then(function (response) {
+      .then(function(response) {
         const $ = cheerio.load(response.data, {
           decodeEntities: false
         });
-       
+
         let hasBody = "" + response.data.indexOf("fc40") > -1; //true标识 为城市数据
 
         if (!hasBody) {
@@ -1264,7 +1291,7 @@ function wraperAxiosFortyProxy(cityCode) {
     };
     axios
       .get(`http://localhost:4003/v1/api/weather/40d/${cityCode}`, headers)
-      .then(function (response) {
+      .then(function(response) {
         let listFortyData = response.data.data.list;
         resolve({
           listFortyData
@@ -1277,28 +1304,37 @@ function wraperAxiosFortyProxy(cityCode) {
 function wrapperKey(obj, key, keyInfo, type) {
   let reslut;
   if (type == "°C") {
-    reslut = [keyInfo, obj[key] + type];
+    reslut = [colors.green(keyInfo), colors.green(obj[key] + type)];
   } else if (type == "aqi") {
-    reslut = [keyInfo, obj[key] + "/" + aqi(obj[key])];
+    reslut = [
+      colors.green(keyInfo),
+      colors.green(obj[key] + "/" + aqi(obj[key]))
+    ];
   } else if (type == "mg" || type == "μg") {
-    reslut = [keyInfo, obj[key] + type + "/m3"];
+    reslut = [colors.green(keyInfo), colors.green(obj[key] + type + "/m3")];
   } else if (type == "mm") {
-    reslut = [keyInfo, obj[key] + type];
+    reslut = [colors.green(keyInfo), colors.green(obj[key] + type)];
   } else if (type == "hpa") {
-    reslut = [keyInfo, obj[key] + type];
+    reslut = [colors.green(keyInfo), colors.green(obj[key] + type)];
   } else {
-    reslut = [keyInfo, obj[key] !== "" ? obj[key] : "不限号"];
+    reslut = [
+      colors.green(keyInfo),
+      obj[key] !== "" ? colors.green(obj[key]) : colors.red("不限号")
+    ];
   }
   return reslut;
 }
 
 function wrapperKeyLife(obj, key, keyInfo) {
-  let reslut = [keyInfo, obj[key]["level"]];
+  let reslut = [colors.green(keyInfo), colors.green(obj[key]["level"])];
   return reslut;
 }
 
 function wrapperKeyWind(obj, keyname, keynum, keyInfo) {
-  let result = [keyInfo, obj[keyname] + " " + obj[keynum]];
+  let result = [
+    colors.green(keyInfo),
+    colors.green(obj[keyname] + " " + obj[keynum])
+  ];
   return result;
 }
 
@@ -1313,7 +1349,12 @@ function wrapperKeyAlarm(obj, key, keyInfo) {
     info.push("暂无预警信息");
   }
 
-  result = [keyInfo, info.join(" ")];
+  result = [
+    colors.green(keyInfo),
+    info[0] == "暂无预警信息"
+      ? colors.green("暂无预警信息")
+      : colors.red(info.join(" "))
+  ];
 
   // console.log(obj[key]['w'].length,info)
 
@@ -1376,11 +1417,11 @@ function tableDrawToday(obj) {
       middle: "│"
     }
   });
-  table.push(["属性", "数值"]);
+  table.push([colors.cyan("属性"), colors.cyan("数值")]);
   for (var i = 0; i < wrapperTodayWeather(obj).length; i++) {
     table.push(wrapperTodayWeather(obj)[i]);
   }
-  console.log(chalk.green(table.toString()));
+  console.log(colors.green(table.toString()));
 }
 
 function tableDrawTodayHourly(data) {
@@ -1408,7 +1449,7 @@ function tableDrawTodayHourly(data) {
     table.push(tabelDataHourlyToday(data)[i]);
   }
 
-  return stdoutTable(chalk.green(table.toString()));
+  return stdoutTable(colors.green(table.toString()));
 }
 
 module.exports = {
