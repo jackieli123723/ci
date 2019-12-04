@@ -1,5 +1,5 @@
 {
-  "name": "weather-cli",
+  "name": "wci-cli-tool",
   "version": "1.0.0",
   "description": "node crawer weather data",
   "main": "bin/weather",

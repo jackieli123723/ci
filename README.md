@@ -5,9 +5,13 @@
 ## 使用方法 
 
 ```
-weather -c 成都 -t -d 1
+npm i wci-cli-tool
+```
+
+```
+weather -c 成都 -t -d 1 
 weather -c 成都 -j -d 1 --hourly
-weather -c 成都 -t -d 7 -
+weather -c 成都 -t -d 7 --hourly --date 11-11
 weather -c 成都 -t -d 15
 weather -c 成都 -t -d 40 
 ```
