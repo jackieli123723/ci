@@ -1,16 +1,20 @@
 {
-  "name": "weather",
+  "name": "weather-cli",
   "version": "1.0.0",
   "description": "node crawer weather data",
   "main": "bin/weather",
   "scripts": {
     "lint": "standard 'config/**/*.js'",
-    "test": "npm run lint && jest"
+    "test": "npm run lint"
   },
   "bin": {
     "weather": "./bin/weather",
     "tianqi": "./bin/weather",
     "wci": "./bin/weather"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jackieli123723/ci"
   },
   "keywords": [
     "node cli commander weather"
