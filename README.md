@@ -80,19 +80,19 @@ $ weather -c 成都 -t -d 1
 
 ## 当天
 
-!![](./screen/1d.png)
+![](./screen/1d.png)
 
 #### 未来7天
 
-!![](./screen/7d.png)
+![](./screen/7d.png)
 
 #### 未来15天
 
-!![](./screen/15d.png)
+![](./screen/15d.png)
 
 #### 未来40天
 
-!![](./screen/40d.png)
+![](./screen/40d.png)
 
 
 
