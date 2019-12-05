@@ -9,6 +9,7 @@ npm i wci-cli-tool
 ```
 
 ```
+weather -h 
 weather -c 成都 -t -d 1 
 weather -c 成都 -j -d 1 --hourly
 weather -c 成都 -t -d 7 --hourly --date 11-11
@@ -77,16 +78,22 @@ $ weather -c 成都 -t -d 1
 
 ```
 
+## 当天
 
-## 截图 
-
-当天
 !![](./screen/1d.png)
-未来7天
+
+#### 未来7天
 
 !![](./screen/7d.png)
-未来15天
+
+#### 未来15天
+
 !![](./screen/15d.png)
 
-未来40天
+#### 未来40天
+
 !![](./screen/40d.png)
+
+
+
+
