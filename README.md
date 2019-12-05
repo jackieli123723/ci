@@ -1,5 +1,9 @@
 ## 天气预报cli 工具 
 
+[![version](https://img.shields.io/npm/v/wci-cli-tool.svg?style=flat)](https://www.npmjs.com/package/wci-cli-tool)
+[![npm Download](https://img.shields.io/npm/dm/wci-cli-tool.svg)](https://www.npmjs.com/package/wci-cli-tool)
+
+
 - cli开发的数据来源[中国天气网](http://www.weather.com.cn/)
 - 同时提供对外第三方的数据接口聚合服务 `server.js`
 
