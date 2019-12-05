@@ -1,7 +1,7 @@
 ## 天气预报cli 工具 
 
 - cli开发的数据来源[中国天气网](http://www.weather.com.cn/)
-
+- 同时提供对外第三方的数据接口聚合服务 `server.js`
 
 ## 使用方法 
 
@@ -83,15 +83,15 @@ $ weather -c 成都 -t -d 1
 
 ![](./screen/1d.png)
 
-#### 未来7天
+## 未来7天
 
 ![](./screen/7d.png)
 
-#### 未来15天
+## 未来15天
 
 ![](./screen/15d.png)
 
-#### 未来40天
+## 未来40天
 
 ![](./screen/40d.png)
 
