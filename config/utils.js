@@ -203,11 +203,15 @@ function flatten(arr, curr) {
   return arr;
 }
 
+function flattenArr(arr) {
+  return arr.reduce((result, item) => {
+    return result.concat(Array.isArray(item) ? flattenArr(item) : item);
+  }, []);
+}
 
 function jsonToObj(t) {
   return JSON.parse(t);
 }
-
 
 function getDegree(arr, index) {
   return arr[index];
@@ -1461,6 +1465,7 @@ module.exports = {
   getLife,
   getLv,
   flatten,
+  flattenArr,
   jsonToObj,
   getDegree,
   intervalData,

@@ -6,7 +6,7 @@ const router = new Router();
 const port = process.env.PORT || 4003;
 const utils = require("./config/utils");
 
-
+const flattenArr = utils.flattenArr;
 const getFutureWeatherDate = utils.getFutureWeatherDate;
 const weekDayInfo = utils.weekDayInfo;
 const uniqueDate = utils.uniqueDate;
@@ -20,8 +20,6 @@ const wraperAxiosSeven = utils.wraperAxiosSeven;
 const wraperAxiosSevenSimple = utils.wraperAxiosSevenSimple;
 const wraperAxiosFifteen = utils.wraperAxiosFifteen;
 const wraperAxiosForty = utils.wraperAxiosForty;
-
-
 
 global.errorHandlerCodeStatus = {
   OK: 200,
@@ -56,7 +54,7 @@ const handler = async (ctx, next) => {
   } catch (err) {
     ctx.response.status = err.statusCode || err.status || 500;
     ctx.response.body = {
-      code:ctx.response.status,
+      code: ctx.response.status,
       msg: err.message
     };
     ctx.app.emit("error", err, ctx); //try catch 捕获了 使用ctx.app.emit()手动释放error事件，才能让监听函数监听到
@@ -103,7 +101,7 @@ router.prefix("/v1/api");
 
 //聚合  4个接口  拿到所有数据
 router.get("/weather/1d/:cityCode", ctx => {
-  const cityCode = parseInt(ctx.params.cityCode,10);
+  const cityCode = parseInt(ctx.params.cityCode, 10);
   let now = wraperAxiosNow(cityCode);
   let warn = wraperAxiosWarn(cityCode);
   let hour = wraperAxiosHour(cityCode);
@@ -131,7 +129,7 @@ router.get("/weather/1d/:cityCode", ctx => {
 });
 
 router.get("/weather/7d/:cityCode", ctx => {
-  const cityCode = parseInt(ctx.params.cityCode,10);
+  const cityCode = parseInt(ctx.params.cityCode, 10);
   return wraperAxiosSeven(cityCode)
     .then(results => {
       ctx.body = {
@@ -152,7 +150,7 @@ router.get("/weather/7d/:cityCode", ctx => {
 });
 
 router.get("/weather/15d/:cityCode", ctx => {
-  const cityCode = parseInt(ctx.params.cityCode,10);
+  const cityCode = parseInt(ctx.params.cityCode, 10);
   const sevenData = wraperAxiosSevenSimple(cityCode);
   const fifteenData = wraperAxiosFifteen(cityCode);
   return Promise.all([sevenData, fifteenData])
@@ -189,7 +187,7 @@ router.get("/weather/15d/:cityCode", ctx => {
 });
 
 router.get("/weather/40d/:cityCode", ctx => {
-  const cityCode = parseInt(ctx.params.cityCode,10);
+  const cityCode = parseInt(ctx.params.cityCode, 10);
   let fortyWeatherDate = [];
   let fortyWeatherData = [];
   for (let i = 0; i < 40; i++) {
@@ -213,28 +211,44 @@ router.get("/weather/40d/:cityCode", ctx => {
     );
   }
 
-  // let nowTimeDate = getFutureWeatherDate(0).split('-').join('')
-  // console.log('nowTimeDate', nowTimeDate)
+  // let nowTimeDate = getFutureWeatherDate(0)
+  //   .split("-")
+  //   .join("");
+  // console.log("nowTimeDate", nowTimeDate);
+  // console.log(fortyWeatherData);
+  // console.log(promiseList, data);
 
   return Promise.all(data)
     .then(results => {
-      // console.log(results[0].listFortyData.length) //35 11月份
-      // console.log(results[1].listFortyData.length) //42 12月份 取这个
-      // console.log(results[2].listFortyData.length) //35 01月份
-      let originWeatherDayData;
+      // console.log("有几个跨度月份", results.length);
+      // console.log(results[0].listFortyData.length); //35 11月份
+      // console.log(results[1].listFortyData.length); //42 12月份 取这个
+      // console.log(results[2].listFortyData.length); //35 01月份
+      // console.log(JSON.stringify(results, null, 3));
+      let originWeatherDayData = [];
       for (let i = 0; i < results.length; i++) {
-        for (let j = 0; j < results[i].listFortyData.length; j++) {
-          if (results[i].listFortyData.length == 42) {
-            originWeatherDayData = filterWeatherDataMonth(
-              results[i].listFortyData
-            );
-          }
+        if (results[i].listFortyData.length) {
+          let tempData = filterWeatherDataMonth(results[i].listFortyData);
+          originWeatherDayData.push(tempData);
         }
       }
+
+      //二维数组扁平 去重 去除引用类型
+      let hash = {};
+      originWeatherDayData = flattenArr(originWeatherDayData).reduce(function(
+        item,
+        next
+      ) {
+        hash[next.date] ? "" : (hash[next.date] = true && item.push(next));
+        return item;
+      },
+      []);
+
       //组装日期
-      originWeatherDayData.forEach((item, index, arr) => {
-        item["weatherDate"] = fortyWeatherDate[index];
-      });
+      originWeatherDayData &&
+        originWeatherDayData.forEach((item, index, arr) => {
+          item["weatherDate"] = fortyWeatherDate[index];
+        });
       ctx.body = {
         msg: "操作成功",
         code: 200,
