@@ -89,7 +89,7 @@ function weatherType(wather) {
     "98": "雪",
     "99": "N/A",
     "301": "雨",
-    "302": "雪"
+    "302": "雪",
   };
 
   var strArr = wather.split("");
@@ -126,9 +126,7 @@ function getClothes(str) {
 
 function getLife(indexs, context) {
   var $ = context;
-  var date = $(".shzsSevenDay ul li")
-    .eq(indexs)
-    .text();
+  var date = $(".shzsSevenDay ul li").eq(indexs).text();
   return date;
 }
 
@@ -146,41 +144,15 @@ function getLv(indexs, context) {
   for (var i = 0; i < 6; i++) {
     if (i !== 3) {
       dlArr.push({
-        level: shzs
-          .find("dl")
-          .eq(i)
-          .find("em")
-          .text(),
-        stars: shzs
-          .find("dl")
-          .eq(i)
-          .find("p")
-          .find("i.active").length,
-        info: shzs
-          .find("dl")
-          .eq(i)
-          .find("dd")
-          .text()
+        level: shzs.find("dl").eq(i).find("em").text(),
+        stars: shzs.find("dl").eq(i).find("p").find("i.active").length,
+        info: shzs.find("dl").eq(i).find("dd").text(),
       });
     } else {
       dlArr.push({
-        level: getClothes(
-          shzs
-            .find("dl")
-            .eq(i)
-            .find("em")
-            .text()
-        ),
-        stars: shzs
-          .find("dl")
-          .eq(i)
-          .find("p")
-          .find("i.active").length,
-        info: shzs
-          .find("dl")
-          .eq(i)
-          .find("dd")
-          .text()
+        level: getClothes(shzs.find("dl").eq(i).find("em").text()),
+        stars: shzs.find("dl").eq(i).find("p").find("i.active").length,
+        info: shzs.find("dl").eq(i).find("dd").text(),
       });
     }
   }
@@ -248,7 +220,7 @@ function sourceData(t) {
         "西风",
         "西北风",
         "北风",
-        "旋转风"
+        "旋转风",
       ],
       i = [
         "<3级",
@@ -260,7 +232,7 @@ function sourceData(t) {
         "8-9级",
         "9-10级",
         "10-11级",
-        "11-12级"
+        "11-12级",
       ],
       n = 0;
     n < t.length;
@@ -287,7 +259,7 @@ function getPerTimeList(s) {
     y.push(intervalData(b, g[b])), x.push(timeFormat(b, g[b]));
   return {
     timeData: x,
-    drgeeData: y.reduce(flatten, [])
+    drgeeData: y.reduce(flatten, []),
   };
 }
 
@@ -303,7 +275,7 @@ function tableData(list) {
     colors.cyan("白天风向"),
     colors.cyan("夜晚风向"),
     colors.cyan("今日日落"),
-    colors.cyan("明日日出")
+    colors.cyan("明日日出"),
   ];
   let tableData = [];
   for (let i = 0; i < list.length; i++) {
@@ -339,7 +311,7 @@ function tableSimpleDataFifteen(list) {
     colors.cyan("夜晚天气"),
     colors.cyan("风向级别"),
     colors.cyan("白天风向"),
-    colors.cyan("夜晚风向")
+    colors.cyan("夜晚风向"),
   ];
   let tableData = [];
   for (let i = 0; i < list.length; i++) {
@@ -369,14 +341,14 @@ function tabelDataHourly(data, date) {
     colors.yellow("天气"),
     colors.yellow("温度"),
     colors.yellow("风向"),
-    colors.yellow("风向级别")
+    colors.yellow("风向级别"),
   ];
   let tableHeadPerThreeHour = [
     colors.yellow("逐3小时预报"),
     colors.yellow("天气"),
     colors.yellow("温度"),
     colors.yellow("风向"),
-    colors.yellow("风向级别")
+    colors.yellow("风向级别"),
   ];
 
   let tableData = [];
@@ -419,14 +391,14 @@ function tabelDataHourlyToday(data) {
     colors.yellow("天气"),
     colors.yellow("温度"),
     colors.yellow("风向"),
-    colors.yellow("风向级别")
+    colors.yellow("风向级别"),
   ];
   let tableHeadPerThreeHour = [
     colors.yellow("逐小时预报"),
     colors.yellow("天气"),
     colors.yellow("温度"),
     colors.yellow("风向"),
-    colors.yellow("风向级别")
+    colors.yellow("风向级别"),
   ];
   let tableData = [];
   let list = [];
@@ -505,7 +477,7 @@ function randomUserAgent() {
     "Mozilla/5.0 (Linux; Android 8.0.0; Pixel 2 XL Build/OPD1.170816.004) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Mobile Safari/537.36",
     "Mozilla/5.0 (iPad; CPU OS 11_0 like Mac OS X) AppleWebKit/604.1.34 (KHTML, like Gecko) Version/11.0 Mobile/15A5341f Safari/604.1",
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/13.10586",
-    "Mozilla/5.0 (iPad; CPU OS 10_0 like Mac OS X) AppleWebKit/602.1.38 (KHTML, like Gecko) Version/10.0 Mobile/14A300 Safari/602.1"
+    "Mozilla/5.0 (iPad; CPU OS 10_0 like Mac OS X) AppleWebKit/602.1.38 (KHTML, like Gecko) Version/10.0 Mobile/14A300 Safari/602.1",
   ];
   const num = Math.floor(Math.random() * userAgentList.length);
   return userAgentList[num];
@@ -554,7 +526,7 @@ function setAirData(observe24h_data) {
     pm25: dataAQI.t3,
     co: dataAQI.t5,
     no2: dataAQI.t6,
-    so2: dataAQI.t9
+    so2: dataAQI.t9,
   };
 }
 
@@ -604,7 +576,7 @@ function weekDayInfo(str) {
 
 //40天日期每月统计
 function uniqueDate(arr) {
-  let uniqueDateArray = arr.reduce(function(acc, name) {
+  let uniqueDateArray = arr.reduce(function (acc, name) {
     let arr = String(name).split("-");
     let temp = arr[0] + "-" + arr[1];
     if (temp in acc) {
@@ -632,20 +604,21 @@ function axioFortyDayWeatherUrl(cityCode, obj) {
     resassemble.push({
       year: res[i][0],
       month: res[i][1],
-      day: res[i][2]
+      day: res[i][2],
     });
     axiosUrl.push(fortyDayWeatherUrl(cityCode, res[i][0], res[i][1]));
   }
   return {
     resassemble: resassemble,
-    axiosUrl: axiosUrl
+    axiosUrl: axiosUrl,
   };
 }
-
+//边界问题 数据bug "d15 next"增加
 function filterWeatherDataMonth(arr) {
   return arr.filter((item, index, arr) => {
     return (
       item.cla == "d15 pre" ||
+      item.cla == "d15 next" ||
       item.cla == "d15" ||
       item.cla == "d40" ||
       item.cla == "d40 pre" ||
@@ -667,7 +640,7 @@ function tableDataForty(list) {
     colors.cyan("白天天气"),
     colors.cyan("夜晚天气"),
     colors.cyan("风向详情"),
-    colors.cyan("降水概率")
+    colors.cyan("降水概率"),
   ];
   let tableData = [];
   for (let i = 0; i < list.length; i++) {
@@ -690,11 +663,11 @@ function tableDataForty(list) {
   return tableData;
 }
 
-const stdoutMessage = function(data) {
+const stdoutMessage = function (data) {
   return process.stdout.write(colors.green(JSON.stringify(data, null, 2)));
 };
 
-const stdoutTable = function(string) {
+const stdoutTable = function (string) {
   return process.stdout.write(string);
 };
 
@@ -715,8 +688,8 @@ function tableDraw(data) {
       "mid-mid": "┼",
       right: "║",
       "right-mid": "╢",
-      middle: "│"
-    }
+      middle: "│",
+    },
   });
   for (var i = 0; i < tableData(data).length; i++) {
     table.push(tableData(data)[i]);
@@ -741,8 +714,8 @@ function tableDrawHourly(data, date) {
       "mid-mid": "┼",
       right: "║",
       "right-mid": "╢",
-      middle: "│"
-    }
+      middle: "│",
+    },
   });
 
   for (var i = 0; i < tabelDataHourly(data, date).length; i++) {
@@ -769,8 +742,8 @@ function tableDrawFifteen(data) {
       "mid-mid": "┼",
       right: "║",
       "right-mid": "╢",
-      middle: "│"
-    }
+      middle: "│",
+    },
   });
 
   for (var i = 0; i < tableSimpleDataFifteen(data).length; i++) {
@@ -797,8 +770,8 @@ function tableDrawForty(data) {
       "mid-mid": "┼",
       right: "║",
       "right-mid": "╢",
-      middle: "│"
-    }
+      middle: "│",
+    },
   });
 
   for (var i = 0; i < tableDataForty(data).length; i++) {
@@ -822,42 +795,74 @@ function todayWeatherAir(cityCode) {
   return `http://d1.weather.com.cn/aqi_all/${cityCode}.html?_=${time}`;
 }
 
-function wraperAxiosNow(cityCode) {
+function carLimitNumber(cityCode) {
   return new Promise((resolve, reject) => {
-    const headers = {
-      headers: {
-        referer: `http://www.weather.com.cn/weather1dn/${cityCode}.shtml`,
-        "Content-Type": "text/html",
-        "User-Agent": randomUserAgent()
-      }
-    };
-
     axios
-      .get(toDayWeatherUrl(cityCode), headers)
-      .then(function(response) {
+      .get(`http://www.weather.com.cn/weather1dn/${cityCode}.shtml`)
+      .then(function (response) {
         const $ = cheerio.load(response.data, {
-          decodeEntities: false
+          decodeEntities: false,
         });
 
         let hasBody = $("body").html();
         if (hasBody == "") {
           let errorInfo = {
             msg: "城市代码错误",
-            code: 500
+            code: 500,
+          };
+          reject(errorInfo);
+          return;
+        }
+        //修复车辆限号 --这里是个同步数据 不需要header
+        let reallimitnumber = $("html body")
+          .find(".todayLeft p")
+          .eq(2)
+          .find("span")
+          .text();
+        resolve({
+          reallimitnumber,
+        });
+      })
+      .catch((err) => reject(err));
+  });
+}
+
+function wraperAxiosNow(cityCode) {
+  return new Promise((resolve, reject) => {
+    const headers = {
+      headers: {
+        referer: `http://www.weather.com.cn/weather1dn/${cityCode}.shtml`,
+        "Content-Type": "text/html",
+        "User-Agent": randomUserAgent(),
+      },
+    };
+
+    axios
+      .get(toDayWeatherUrl(cityCode), headers)
+      .then(function (response) {
+        const $ = cheerio.load(response.data, {
+          decodeEntities: false,
+        });
+
+        let hasBody = $("body").html();
+        if (hasBody == "") {
+          let errorInfo = {
+            msg: "城市代码错误",
+            code: 500,
           };
           reject(errorInfo);
           return;
         }
 
-        let timeWeather = $("html body")
-          .html()
-          .replace("var dataSK = ", "");
+        let timeWeather = $("html body").html().replace("var dataSK = ", "");
         let realWeatherObj = JSON.parse(timeWeather);
+
+        realWeatherObj.limitnumber = "aaaa";
         resolve({
-          ...realWeatherObj
+          ...realWeatherObj,
         });
       })
-      .catch(err => reject(err));
+      .catch((err) => reject(err));
   });
 }
 
@@ -868,18 +873,16 @@ function wraperAxiosWarn(cityCode) {
       headers: {
         referer: `http://www.weather.com.cn/weather1dn/${cityCode}.shtml`,
         "Content-Type": "text/html",
-        "User-Agent": randomUserAgent()
-      }
+        "User-Agent": randomUserAgent(),
+      },
     };
     axios
       .get(todayWeatherWarning(cityCode), headers)
-      .then(function(response) {
+      .then(function (response) {
         const $ = cheerio.load(response.data, {
-          decodeEntities: false
+          decodeEntities: false,
         });
-        let warnWeather = $("html body")
-          .html()
-          .split(";");
+        let warnWeather = $("html body").html().split(";");
 
         let cityDZ = jsonToObj(
           warnWeather[0].replace(`var cityDZ${cityCode} =`, "")
@@ -889,10 +892,10 @@ function wraperAxiosWarn(cityCode) {
         );
         resolve({
           cityDZ,
-          alarmDZ
+          alarmDZ,
         });
       })
-      .catch(err => reject(err));
+      .catch((err) => reject(err));
   });
 }
 
@@ -901,16 +904,16 @@ function wraperAxiosHour(cityCode) {
     const url = `http://www.weather.com.cn/weather1dn/${cityCode}.shtml`;
     axios
       .get(url)
-      .then(function(response) {
+      .then(function (response) {
         const $ = cheerio.load(response.data, {
-          decodeEntities: false
+          decodeEntities: false,
         });
 
         let hasBody = $("body").html();
         if (hasBody == "") {
           let errorInfo = {
             msg: "城市代码错误",
-            code: 500
+            code: 500,
           };
           reject(errorInfo);
           return;
@@ -954,10 +957,10 @@ function wraperAxiosHour(cityCode) {
           max_degree,
           min_degree,
           sunup,
-          sunset
+          sunset,
         });
       })
-      .catch(err => reject(err));
+      .catch((err) => reject(err));
   });
 }
 
@@ -967,14 +970,14 @@ function wraperAxiosAir(cityCode) {
       headers: {
         referer: `http://www.weather.com.cn/air/?city=${cityCode}`,
         "Content-Type": "text/html",
-        "User-Agent": randomUserAgent()
-      }
+        "User-Agent": randomUserAgent(),
+      },
     };
     axios
       .get(todayWeatherAir(cityCode), headers)
-      .then(function(response) {
+      .then(function (response) {
         const $ = cheerio.load(response.data, {
-          decodeEntities: false
+          decodeEntities: false,
         });
         let air = $("html body")
           .html()
@@ -983,10 +986,10 @@ function wraperAxiosAir(cityCode) {
 
         let airInfo = setAirData(jsonToObj(air));
         resolve({
-          ...airInfo
+          ...airInfo,
         });
       })
-      .catch(err => reject(err));
+      .catch((err) => reject(err));
   });
 }
 
@@ -994,15 +997,15 @@ function wraperAxiosSeven(cityCode) {
   return new Promise((resolve, reject) => {
     axios
       .get(sevenDayWeatherUrl(cityCode))
-      .then(function(response) {
+      .then(function (response) {
         const $ = cheerio.load(response.data, {
-          decodeEntities: false
+          decodeEntities: false,
         });
         let hasBody = $("body").html();
         if (hasBody == "") {
           let errorInfo = {
             msg: "城市代码错误",
-            code: 500
+            code: 500,
           };
           reject(errorInfo);
           return;
@@ -1024,7 +1027,7 @@ function wraperAxiosSeven(cityCode) {
 
         let data = [];
         //聚合7天数据
-        $(".date-container li").each(function(item, indx, arr) {
+        $(".date-container li").each(function (item, indx, arr) {
           let $this = $(this);
           let index = $this.index();
           let weatherContentDom = $(".blue-container .blue-item").eq(index);
@@ -1064,7 +1067,7 @@ function wraperAxiosSeven(cityCode) {
               max_degree: getDegree(jsonToObj(temperatures[0]), index),
               min_degree: getDegree(jsonToObj(temperatures[1]), index),
               lifeDate: getLife(index - 1, $),
-              lifeAssistant: getLv(index - 1, $)
+              lifeAssistant: getLv(index - 1, $),
             });
           }
         });
@@ -1076,10 +1079,10 @@ function wraperAxiosSeven(cityCode) {
 
         resolve({
           list,
-          uptime
+          uptime,
         });
       })
-      .catch(err => reject(err));
+      .catch((err) => reject(err));
   });
 }
 
@@ -1087,15 +1090,15 @@ function wraperAxiosSevenSimple(cityCode) {
   return new Promise((resolve, reject) => {
     axios
       .get(sevenDayWeatherUrl(cityCode))
-      .then(function(response) {
+      .then(function (response) {
         const $ = cheerio.load(response.data, {
-          decodeEntities: false
+          decodeEntities: false,
         });
         let hasBody = $("body").html();
         if (hasBody == "") {
           let errorInfo = {
             msg: "城市代码错误",
-            code: 500
+            code: 500,
           };
           reject(errorInfo);
           return;
@@ -1117,7 +1120,7 @@ function wraperAxiosSevenSimple(cityCode) {
 
         let data = [];
         //聚合7天数据
-        $(".date-container li").each(function(item, indx, arr) {
+        $(".date-container li").each(function (item, indx, arr) {
           let $this = $(this);
           let index = $this.index();
           let weatherContentDom = $(".blue-container .blue-item").eq(index);
@@ -1151,7 +1154,7 @@ function wraperAxiosSevenSimple(cityCode) {
                 .attr("title"),
               windInfo: trim(weatherContentDom.find(".wind-info").text()),
               max_degree: getDegree(jsonToObj(temperatures[0]), index),
-              min_degree: getDegree(jsonToObj(temperatures[1]), index)
+              min_degree: getDegree(jsonToObj(temperatures[1]), index),
             });
           }
         });
@@ -1163,10 +1166,10 @@ function wraperAxiosSevenSimple(cityCode) {
 
         resolve({
           list,
-          uptime
+          uptime,
         });
       })
-      .catch(err => reject(err));
+      .catch((err) => reject(err));
   });
 }
 
@@ -1174,16 +1177,16 @@ function wraperAxiosFifteen(cityCode) {
   return new Promise((resolve, reject) => {
     axios
       .get(fifteenDayWeatherUrl(cityCode))
-      .then(function(response) {
+      .then(function (response) {
         const $ = cheerio.load(response.data, {
-          decodeEntities: false
+          decodeEntities: false,
         });
         let hasBody = $("body").html();
 
         if (hasBody == "") {
           let errorInfo = {
             msg: "城市代码错误",
-            code: 500
+            code: 500,
           };
           reject(errorInfo);
           return;
@@ -1196,7 +1199,7 @@ function wraperAxiosFifteen(cityCode) {
 
         let data = [];
         //后面8天数据
-        $(".date-container li").each(function(item, indx, arr) {
+        $(".date-container li").each(function (item, indx, arr) {
           let $this = $(this);
           let index = $this.index();
           let weatherContentDom = $(".blue-container .blue-item").eq(index);
@@ -1230,16 +1233,16 @@ function wraperAxiosFifteen(cityCode) {
               .attr("title"),
             windInfo: trim(weatherContentDom.find(".wind-info").text()),
             max_degree: getDegree(jsonToObj(temperatures[2]), index),
-            min_degree: getDegree(jsonToObj(temperatures[3]), index)
+            min_degree: getDegree(jsonToObj(temperatures[3]), index),
           });
         });
 
         let listFifteen = data;
         resolve({
-          listFifteen
+          listFifteen,
         });
       })
-      .catch(err => reject(err));
+      .catch((err) => reject(err));
   });
 }
 
@@ -1249,14 +1252,14 @@ function wraperAxiosForty(cityCode, year, month) {
     const headers = {
       headers: {
         referer: `http://www.weather.com.cn/weather40dn/${cityCode}.shtml`,
-        "User-Agent": randomUserAgent()
-      }
+        "User-Agent": randomUserAgent(),
+      },
     };
     axios
       .get(fortyDayWeatherUrl(cityCode, year, month), headers)
-      .then(function(response) {
+      .then(function (response) {
         const $ = cheerio.load(response.data, {
-          decodeEntities: false
+          decodeEntities: false,
         });
 
         let hasBody = "" + response.data.indexOf("fc40") > -1; //true标识 为城市数据
@@ -1264,23 +1267,21 @@ function wraperAxiosForty(cityCode, year, month) {
         if (!hasBody) {
           let errorInfo = {
             msg: "城市代码错误",
-            code: 500
+            code: 500,
           };
           reject(errorInfo);
           return;
         }
 
-        let fc40 = $("html body")
-          .html()
-          .replace("var fc40 = ", "");
+        let fc40 = $("html body").html().replace("var fc40 = ", "");
 
         let listFortyData = fc40 && jsonToObj(fc40);
 
         resolve({
-          listFortyData
+          listFortyData,
         });
       })
-      .catch(err => reject(err));
+      .catch((err) => reject(err));
   });
 }
 
@@ -1291,18 +1292,18 @@ function wraperAxiosFortyProxy(cityCode) {
       headers: {
         referer: `http://www.weather.com.cn/weather40dn/${cityCode}.shtml`,
         "Content-Type": "application/json; charset=utf-8",
-        "User-Agent": randomUserAgent()
-      }
+        "User-Agent": randomUserAgent(),
+      },
     };
     axios
       .get(`http://localhost:4003/v1/api/weather/40d/${cityCode}`, headers)
-      .then(function(response) {
+      .then(function (response) {
         let listFortyData = response.data.data.list;
         resolve({
-          listFortyData
+          listFortyData,
         });
       })
-      .catch(err => reject(err));
+      .catch((err) => reject(err));
   });
 }
 
@@ -1313,7 +1314,7 @@ function wrapperKey(obj, key, keyInfo, type) {
   } else if (type == "aqi") {
     reslut = [
       colors.green(keyInfo),
-      colors.green(obj[key] + "/" + aqi(obj[key]))
+      colors.green(obj[key] + "/" + aqi(obj[key])),
     ];
   } else if (type == "mg" || type == "μg") {
     reslut = [colors.green(keyInfo), colors.green(obj[key] + type + "/m3")];
@@ -1324,7 +1325,7 @@ function wrapperKey(obj, key, keyInfo, type) {
   } else {
     reslut = [
       colors.green(keyInfo),
-      obj[key] !== "" ? colors.green(obj[key]) : colors.red("不限号")
+      obj[key] !== "" ? colors.green(obj[key]) : colors.red("不限号"),
     ];
   }
   return reslut;
@@ -1338,7 +1339,7 @@ function wrapperKeyLife(obj, key, keyInfo) {
 function wrapperKeyWind(obj, keyname, keynum, keyInfo) {
   let result = [
     colors.green(keyInfo),
-    colors.green(obj[keyname] + " " + obj[keynum])
+    colors.green(obj[keyname] + " " + obj[keynum]),
   ];
   return result;
 }
@@ -1358,7 +1359,7 @@ function wrapperKeyAlarm(obj, key, keyInfo) {
     colors.green(keyInfo),
     info[0] == "暂无预警信息"
       ? colors.green("暂无预警信息")
-      : colors.red(info.join(" "))
+      : colors.red(info.join(" ")),
   ];
 
   // console.log(obj[key]['w'].length,info)
@@ -1369,6 +1370,7 @@ function wrapperKeyAlarm(obj, key, keyInfo) {
 function wrapperTodayWeather(obj) {
   let result = [];
   result.push(
+    wrapperKey(obj, "date", "日期"),
     wrapperKey(obj, "time", "天气实况更新时间"),
     wrapperKey(obj, "temp", "平均温度", "°C"),
     wrapperKey(obj, "max_degree", "最高温度", "°C"),
@@ -1419,8 +1421,8 @@ function tableDrawToday(obj) {
       "mid-mid": "┼",
       right: "║",
       "right-mid": "╢",
-      middle: "│"
-    }
+      middle: "│",
+    },
   });
   table.push([colors.cyan("属性"), colors.cyan("数值")]);
   for (var i = 0; i < wrapperTodayWeather(obj).length; i++) {
@@ -1446,8 +1448,8 @@ function tableDrawTodayHourly(data) {
       "mid-mid": "┼",
       right: "║",
       "right-mid": "╢",
-      middle: "│"
-    }
+      middle: "│",
+    },
   });
 
   for (var i = 0; i < tabelDataHourlyToday(data).length; i++) {
@@ -1515,5 +1517,6 @@ module.exports = {
   wrapperKeyAlarm,
   wrapperTodayWeather,
   tableDrawToday,
-  tableDrawTodayHourly
+  tableDrawTodayHourly,
+  carLimitNumber,
 };

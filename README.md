@@ -7,6 +7,19 @@
 - cli开发的数据来源[中国天气网](http://www.weather.com.cn/)
 - 同时提供对外第三方的数据接口聚合服务 `server.js`
 
+
+### api 使用
+
+```js
+nodemon server.js 
+http://localhost:4003/v1/api/weather/1d/101270101
+http://localhost:4003/v1/api/weather/7d/101270101
+http://localhost:4003/v1/api/weather/15d/101270101
+http://localhost:4003/v1/api/weather/40d/101270101
+
+```
+
+
 ## 使用方法 
 
 ```
