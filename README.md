@@ -23,7 +23,7 @@ http://localhost:4003/v1/api/weather/40d/101270101
 ## 使用方法 
 
 ```
-npm i wci-cli-tool
+npm install wci-cli-tool -g
 ```
 
 ```
