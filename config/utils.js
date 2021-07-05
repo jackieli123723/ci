@@ -854,8 +854,10 @@ function wraperAxiosNow(cityCode) {
           return;
         }
 
-        let timeWeather = $("html body").html().replace("var dataSK = ", "");
+        let timeWeather = $("html body").html().replace("var dataSK=", "");
         let realWeatherObj = JSON.parse(timeWeather);
+
+        // console.log(realWeatherObj) // 格式化问题待修复
 
         realWeatherObj.limitnumber = "aaaa";
         resolve({
@@ -883,13 +885,15 @@ function wraperAxiosWarn(cityCode) {
           decodeEntities: false,
         });
         let warnWeather = $("html body").html().split(";");
-
+        
+        // console.log($("html body").html(),warnWeather)
         let cityDZ = jsonToObj(
           warnWeather[0].replace(`var cityDZ${cityCode} =`, "")
         );
         let alarmDZ = jsonToObj(
           warnWeather[1].replace(`var alarmDZ${cityCode} =`, "")
         );
+
         resolve({
           cityDZ,
           alarmDZ,
